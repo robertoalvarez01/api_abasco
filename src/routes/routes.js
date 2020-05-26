@@ -866,7 +866,7 @@ router.post("/insertar_servicio", (req, res) => {
   } = req.body;
   if (pass == password) {
     db.query(
-      "INSERT INTO servicios(idCasa, luz, agua, calefaccion) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO servicios(idCasa, luz, agua, calefaccion, telefono, gas, internet) VALUES (?, ?, ?, ?, ?, ?, ?)",
       [idCasa, luz, agua, calefaccion, telefono, gas, internet],
       (err, rows, fields) => {
         if (!err) {
@@ -904,7 +904,7 @@ router.put("/modificar_servicio", (req, res) => {
   } = req.body;
   if (pass == password) {
     db.query(
-      "UPDATE servicios SET idCasa =?, luz =?, agua =?, calefaccion =? WHERE id = ?",
+      "UPDATE servicios SET idCasa =?, luz =?, agua =?, calefaccion =?, telefono=?, gas=?, internet=? WHERE id = ?",
       [idCasa, luz, agua, calefaccion, telefono, gas, internet, id],
       (err, rows, fields) => {
         if (!err) {
