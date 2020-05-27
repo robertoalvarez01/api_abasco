@@ -892,7 +892,6 @@ router.post("/insertar_servicio", (req, res) => {
 
 router.put("/modificar_servicio", (req, res) => {
   const {
-    id,
     idCasa,
     luz,
     agua,
@@ -904,8 +903,8 @@ router.put("/modificar_servicio", (req, res) => {
   } = req.body;
   if (pass == password) {
     db.query(
-      "UPDATE servicios SET idCasa =?, luz =?, agua =?, calefaccion =?, telefono=?, gas=?, internet=? WHERE id = ?",
-      [idCasa, luz, agua, calefaccion, telefono, gas, internet, id],
+      "UPDATE servicios SET  luz =?, agua =?, calefaccion =?, telefono=?, gas=?, internet=? WHERE idCasa = ?",
+      [luz, agua, calefaccion, telefono, gas, internet, idCasa],
       (err, rows, fields) => {
         if (!err) {
           res.send({
@@ -975,7 +974,6 @@ router.get("/servicios", (req, res) => {
 
 router.put("/modificar_dato_tecnico", (req, res) => {
   const {
-    id,
     pass,
     idCasa,
     dormitorios,
@@ -987,16 +985,15 @@ router.put("/modificar_dato_tecnico", (req, res) => {
   } = req.body;
   if (pass == password) {
     db.query(
-      "UPDATE datos_tecnicos SET idCasa =?, dormitorios =?, s_terreno =?, s_cubierta =?, s_semicubierta =?, cochera =?, pileta =? WHERE id = ?",
+      "UPDATE datos_tecnicos SET  dormitorios =?, s_terreno =?, s_cubierta =?, s_semicubierta =?, cochera =?, pileta =? WHERE idCasa = ?",
       [
-        idCasa,
         dormitorios,
         s_terreno,
         s_cubierta,
         s_semicubierta,
         cochera,
         pileta,
-        id,
+        idCasa,
       ],
       (err, rows, fields) => {
         if (!err) {
