@@ -1,15 +1,12 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const path = require('path');
+
 const app = express();
+app.use(cors());
 
-
-// Middlewares
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-});
+//const {config} = require('./config/index.js');
 
 app.use(express.json());
 
@@ -17,10 +14,25 @@ app.set('port', process.env.PORT || 3000);
 
 
 // Routes
-app.use(require('./routes/routes'));
+//const quienesSomosApi = require('./routes/quienesSomos');
+const serviciosApi = require('./routes/servicios');
+const imagenesApi = require('./routes/imagenes');
+const datostecnicosApi = require('./routes/datosTecnicos');
+const inmueblesApi = require('./routes/inmuebles');
+const localidadesApi = require('./routes/localidades');
+const operacionesApi = require('./routes/operaciones.js');
+const categoriasapi = require('./routes/categorias.js');
+const filtrosApi = require('./routes/filtros.js');
 
-
-
+//quienesSomosApi(app);
+serviciosApi(app);
+imagenesApi(app);
+datostecnicosApi(app);
+inmueblesApi(app);
+localidadesApi(app);
+operacionesApi(app);
+categoriasapi(app);
+filtrosApi(app);
 
 app.listen(app.get('port'), () => {
     console.log('Servidor escuchando en el puerto: ', app.get('port'));

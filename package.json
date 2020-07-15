@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "DEBUG=APP:* & nodemon index",
+    "dev": "node src/index.js",
     "start": "node src/index.js"
   },
   "keywords": [],
