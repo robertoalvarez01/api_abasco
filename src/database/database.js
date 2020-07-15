@@ -1,11 +1,11 @@
 const mysql = require('mysql');
-
+const {config} = require('../../config/index');
 
 var db_config = {
-  host: 'localhost',
-  user: 'root',
-  password: 'ZAQ12wsx',
-  database: 'sbacco',
+  host: config.dbHost,
+  user: config.dbUser,
+  password: config.dbPass,
+  database: config.dbName,
   multipleStatements: true
 };
 
