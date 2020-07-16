@@ -24,6 +24,7 @@ const operacionesApi = require('./routes/operaciones.js');
 const categoriasapi = require('./routes/categorias.js');
 const filtrosApi = require('./routes/filtros.js');
 const contactoApi = require('./routes/contacto');
+const partidosApi = require('./routes/partidos');
 
 //quienesSomosApi(app);
 serviciosApi(app);
@@ -35,6 +36,7 @@ operacionesApi(app);
 categoriasapi(app);
 filtrosApi(app);
 contactoApi(app);
+partidosApi(app);
 
 app.listen(app.get('port'), () => {
     console.log('Servidor escuchando en el puerto: ', app.get('port'));
