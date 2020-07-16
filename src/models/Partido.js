@@ -22,7 +22,7 @@ class PartidoModel{
 
     create(partido){
         return new Promise((resolve,reject)=>{
-            db.query(`INSERT INTO partidos (partido) VALUES ('${partido.partido}')`,(err,res,fields)=>{
+            db.query(`INSERT INTO partidos (partido) VALUES ('${partido}')`,(err,res,fields)=>{
                 if(err) throw new Error(err);
                 resolve(res);
             })
@@ -31,7 +31,7 @@ class PartidoModel{
 
     update(partido,id){
         return new Promise((resolve,reject)=>{
-            db.query(`UPDATE partidos set partido = '${partido.partido}' WHERE id = ${id}`,(err,res,fields)=>{
+            db.query(`UPDATE partidos set partido = '${partido}' WHERE id = ${id}`,(err,res,fields)=>{
                 if(err) throw new Error(err);
                 resolve(res);
             })

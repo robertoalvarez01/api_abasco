@@ -33,8 +33,8 @@ function partidosApi(app) {
     });
 
     router.post('/',async(req,res,next)=>{
-        const {partido,pass} = req.body;
-        if(pass !== password) return res.status(403).send({info:'Contraseña incorrecta'});
+        const {partido , pass} = req.body;
+        if(pass != password) return res.status(403).send({info:'Contraseña incorrecta'});
         try {
             const response = await partidosService.create(partido);
             res.status(200).json({
