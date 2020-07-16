@@ -3,11 +3,13 @@ const db = require("../database/database");
 const password = "ZAQ12wsx";
 const multer = require('../lib/multer');
 const CloudStorage = require('../services/CloudStorage');
+const ImagenesService = require('../services/Imagenes');
+
 function imagenesApi(app) {
     const router = express.Router();
     app.use("/",router);
     const cs = new CloudStorage();
-
+    const imagenesService = new ImagenesService();
     router.post("/insertar_imagen",multer.single('header'),async(req, res) => {
         try {
           const { idCasa, pass } = req.body;
@@ -115,7 +117,29 @@ function imagenesApi(app) {
           }
         });
     });
-      
+
+
+    //carga de varias imagenes
+    router.post('/imagenes-varios',multer.array('imagenes'),async (req,res,next)=>{
+      const {pass,idCasa} = req.body;
+      if(pass !== password){
+        res.status(403).send({
+          info:'Contraseña incorrecta'
+        });
+        return;
+      }
+      if(!req.files){
+        res.status(500).send({
+          info:'Files not found'
+        });
+        return;
+      };
+      await imagenesService.subirImagenesVarias(req.files,idCasa);
+      res.status(200).send({
+        info:'Imagenes subidas'
+      })
+    });
+
 }
 
 module.exports = imagenesApi;
