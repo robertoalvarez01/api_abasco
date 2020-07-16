@@ -1,100 +1,102 @@
 const express = require('express');
 const db = require("../database/database");
 const password = "ZAQ12wsx";
-// const multer = require('../lib/multer');
-// const path = require('path');
-// const {Storage} = require('@google-cloud/storage');
-// const {format} = require('util');
-
-// const googleCloud = new Storage({
-//   keyFilename:path.join(__dirname,'../sitios-trabajo-679d5ad729ed.json'),
-//   projectId:'sitios-trabajo'
-// })
-
-//const bucket = googleCloud.bucket('agrogane-dev');
-
+const multer = require('../lib/multer');
+const CloudStorage = require('../services/CloudStorage');
 function imagenesApi(app) {
     const router = express.Router();
     app.use("/",router);
+    const cs = new CloudStorage();
 
-    router.post("/insertar_imagen", (req, res) => {
-        const { idCasa, nombre, header, pass } = req.body;
-        if (pass == password) {
-          db.query(
-            "INSERT INTO imagenes(idCasa, nombre, header) VALUES (?, ?, ?)",
-            [idCasa, nombre, header],
-            (err, rows, fields) => {
-              if (!err) {
-                res.send({
-                  status: true,
-                  info: "imagen insertada con éxito",
-                });
-              } else {
-                res.send({
-                  status: false,
-                  info: err,
-                });
+    router.post("/insertar_imagen",multer.single('header'),async(req, res) => {
+        try {
+          const { idCasa, pass } = req.body;
+          if (pass !== password){
+            res.send({
+              status: false,
+              info: "la contraseña ingresada no es compatible",
+            });
+            return;
+          }
+          //subo la imagen al storage y me devuelve el link
+          cs.upload(req.file).then(link => {
+            db.query(
+              "INSERT INTO imagenes(idCasa, nombre, header) VALUES (?, ?, ?)",
+              [idCasa, link, true],
+              (err, rows, fields) => {
+                if (!err) {
+                  res.send({
+                    status: true,
+                    info: "imagen insertada con éxito",
+                  });
+                } else {
+                  res.send({
+                    status: false,
+                    info: err,
+                  });
+                }
               }
-            }
-          );
-        } else {
-          res.send({
-            status: false,
-            info: "la contraseña ingresada no es compatible",
+            );
+          }).catch((err) => {
+            res.status(400).send({
+              info:err
+            })
           });
+        } catch (error) {
+          res.status(400).send({
+            info:err
+          })
         }
     });
       
-    router.put("/modificar_imagen", (req, res) => {
-        const { id, nombre, header, idCasa, pass } = req.body;
-        if (pass == password) {
-          db.query(
-            "UPDATE imagenes SET idCasa =?, nombre =?, header =? WHERE id = ?",
-            [idCasa, nombre, header, id],
-            (err, rows, fields) => {
-              if (!err) {
-                res.send({
-                  status: true,
-                  info: "Imagen modificada con éxito",
-                });
-              } else {
-                res.send({
-                  status: false,
-                  info: err,
-                });
-              }
-            }
-          );
-        } else {
-          res.send({
-            status: false,
-            info: "la contraseña ingresada no es compatible",
-          });
-        }
-    });
-      
-    router.delete("/borrar_imagen/:id/:pass", (req, res) => {
-        const { id, pass } = req.params;
-        if (pass == password) {
-          db.query("DELETE FROM imagenes WHERE id=?", [id], (err, rows, fields) => {
+    router.put("/modificar_imagen",multer.single('header'),(req, res) => {
+      const { id , pass } = req.body;
+      if (pass !== password){
+        res.send({
+          status: false,
+          info: "la contraseña ingresada no es compatible",
+        });
+        return;
+      };
+      if(req.file){
+        cs.upload(req.file).then(link=>{
+          db.query("UPDATE imagenes SET nombre =? WHERE id = ?",[link, id],(err, rows, fields) => {
             if (!err) {
-              res.send({
-                status: true,
-                info: "se ha borrado con éxito el registro",
+              res.status(200).send({
+                info: "Imagen modificada con éxito",
               });
             } else {
-              res.send({
-                status: false,
+              res.status(500).send({
                 info: err,
               });
             }
           });
-        } else {
-          res.send({
-            status: false,
-            info: "la contraseña ingresada no es compatible",
-          });
-        }
+        })
+      }
+    });
+      
+    router.delete("/borrar_imagen/:id", (req, res) => {
+      const {pass , name} = req.query;
+      const { id } = req.params;
+      if (pass != password) {
+        res.status(403).send({
+          info: "la contraseña ingresada no es compatible",
+        });
+        return;
+      }
+      cs.delete(name).then(()=>{
+        db.query("DELETE FROM imagenes WHERE id=?", [id], (err, rows, fields) => {
+          if (!err) {
+            res.status(200).send({
+              info: "se ha borrado con éxito la imágen",
+            });
+          } else {
+            res.status(500).send({
+              info: err,
+            });
+          }
+        });
+      })
     });
       
     router.get("/imagenes", (req, res) => {

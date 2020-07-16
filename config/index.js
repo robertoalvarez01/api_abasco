@@ -5,7 +5,9 @@ const config = {
     dbUser: process.env.DB_USER_DEV,
     dbPass: process.env.DB_PASSWORD_DEV,
     dbHost: process.env.DB_HOST_DEV,
-    dbName: process.env.DB_NAME_DEV 
+    dbName: process.env.DB_NAME_DEV,
+    idProjectGoogleCloud: process.env.PROJECT_ID_GCLOUD,
+    bucketGoogleCloud: process.env.BUCKET_GCLOUD 
 };
 
 module.exports = {config};
