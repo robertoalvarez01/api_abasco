@@ -1,6 +1,17 @@
 const express = require('express');
 const db = require("../database/database");
 const password = "ZAQ12wsx";
+// const multer = require('../lib/multer');
+// const path = require('path');
+// const {Storage} = require('@google-cloud/storage');
+// const {format} = require('util');
+
+// const googleCloud = new Storage({
+//   keyFilename:path.join(__dirname,'../sitios-trabajo-679d5ad729ed.json'),
+//   projectId:'sitios-trabajo'
+// })
+
+//const bucket = googleCloud.bucket('agrogane-dev');
 
 function imagenesApi(app) {
     const router = express.Router();
