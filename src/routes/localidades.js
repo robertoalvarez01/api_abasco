@@ -95,7 +95,7 @@ function localidadesApi(app) {
         const { idPartido, localidad, pass } = req.body;
         if (pass == password) {
           db.query(
-            "INSERT INTO ubicacion(idPartido, localidad) VALUES (? , ?)",
+            "INSERT INTO localidades(idPartido, localidad) VALUES (? , ?)",
             [idPartido, localidad],
             (err, rows, fields) => {
               if (!err) {
@@ -127,7 +127,7 @@ function localidadesApi(app) {
         const { id, idPartido, localidad, pass } = req.body;
         if (pass == password) {
           db.query(
-            "UPDATE ubicacion SET idPartido = ? , localidad = ? WHERE id = ?",
+            "UPDATE localidades SET idPartido = ? , localidad = ? WHERE id = ?",
             [idPartido, localidad, id],
             (err, rows, fields) => {
               if (!err) {
