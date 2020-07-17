@@ -7,10 +7,10 @@ function inmueblesApi(app) {
     app.use("/",router);
 
     router.post("/insertar_inmueble", (req, res) => {
-        const {idOperacion,precio,idPartido,idLocalidad,direccion,idCategoria,descripcion,estado,moneda,pass} = req.body;
+        const {idOperacion,precio,idPartido,idLocalidad,direccion,idCategoria,descripcion,estado, mostrarEstado,moneda,pass} = req.body;
         if (pass == password) {
           db.query(
-            "INSERT INTO inmuebles(idOperacion, precio, idPartido,idLocalidad, direccion, idCategoria, descripcion, estado, moneda) VALUES (? , ?, ?, ? , ?, ?, ?, ?)",
+            "INSERT INTO inmuebles(idOperacion, precio, idPartido,idLocalidad, direccion, idCategoria, descripcion, estado, mostrarEstado,moneda) VALUES (? , ?, ?, ? , ?, ?, ?, ?)",
             [
               idOperacion,
               precio,
@@ -20,6 +20,7 @@ function inmueblesApi(app) {
               idCategoria,
               descripcion,
               estado,
+              mostrarEstado,
               moneda,
             ],
             (err, rows, fields) => {
@@ -273,11 +274,12 @@ function inmueblesApi(app) {
           idCategoria,
           descripcion,
           estado,
+          mostrarEstado,
           moneda,
         } = req.body;
         if (pass == password) {
           db.query(
-            "UPDATE inmuebles SET idOperacion = ?, precio = ?, idPartido = ? ,idLocalidad = ?, direccion = ?, idCategoria = ?, descripcion = ?, estado = ?, moneda = ? WHERE id = ?",
+            "UPDATE inmuebles SET idOperacion = ?, precio = ?, idPartido = ? ,idLocalidad = ?, direccion = ?, idCategoria = ?, descripcion = ?, estado = ?, mostrarEstado = ?,moneda = ? WHERE id = ?",
             [
               idOperacion,
               precio,
@@ -287,6 +289,7 @@ function inmueblesApi(app) {
               idCategoria,
               descripcion,
               estado,
+              mostrarEstado,
               moneda,
               id,
             ],
