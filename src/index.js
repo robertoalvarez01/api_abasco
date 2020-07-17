@@ -38,6 +38,6 @@ filtrosApi(app);
 contactoApi(app);
 partidosApi(app);
 
-app.listen(app.get('port'), () => {
+app.listen(3001, () => {
     console.log('Servidor escuchando en el puerto: ', app.get('port'));
 });

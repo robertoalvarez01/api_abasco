@@ -35,7 +35,7 @@ function localidadesApi(app) {
       
       router.get("/ubicaciones", (req, res) => {
         db.query(`SELECT localidad.id,localidad.idPartido,partido,localidad FROM localidades AS localidad, partidos as partido 
-        where localidad.id = partido.id`, (err, rows, fields) => {
+        where localidad.idPartido = partido.id`, (err, rows, fields) => {
           if (!err) {
             res.send({
               status: true,
@@ -60,7 +60,7 @@ function localidadesApi(app) {
         if (id != undefined) {
           db.query(
             `SELECT localidad.id,localidad.idPartido,partido,localidad FROM localidades AS localidad, partidos as partido 
-            where localidad.id = partido.id and localidad.id LIKE ? `,
+            where localidad.idPartido = partido.id and localidad.id LIKE ? `,
             [id],
             (err, rows, fields) => {
               if (!err) {
@@ -101,6 +101,7 @@ function localidadesApi(app) {
               if (!err) {
                 res.send({
                   status: true,
+                  rows,
                   info: "operacion insertada con éxito",
                 });
               } else {
