@@ -4,7 +4,7 @@ const path = require('path');
 
 function quienesSomosApi(app) {
     const router = express.Router();
-    app.use("/",router);
+    app.use("/nosotros",router);
     const quienesSomosService = new QuienesSomosService();
 
     router.get('/',async(req,res,next)=>{
