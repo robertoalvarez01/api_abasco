@@ -10,7 +10,7 @@ function inmueblesApi(app) {
         const {idOperacion,precio,idPartido,idLocalidad,direccion,idCategoria,descripcion,estado, mostrarEstado,moneda,pass} = req.body;
         if (pass == password) {
           db.query(
-            "INSERT INTO inmuebles(idOperacion, precio, idPartido,idLocalidad, direccion, idCategoria, descripcion, estado, mostrarEstado,moneda) VALUES (? , ?, ?, ? , ?, ?, ?, ?)",
+            "INSERT INTO inmuebles(idOperacion, precio, idPartido,idLocalidad, direccion, idCategoria, descripcion, estado, mostrarEstado,moneda) VALUES (? , ?, ?, ? , ?, ?, ?, ?, ?, ?)",
             [
               idOperacion,
               precio,
