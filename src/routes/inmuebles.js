@@ -85,11 +85,11 @@ function inmueblesApi(app) {
           query += "WHERE activo = 1 ";
         }
         if (order == "normal") {
-          query='ORDER BY inmuebles.id DESC LIMIT ?';
+          query+='ORDER BY inmuebles.id DESC LIMIT ?';
         } else if (order == "high") {
-          query='ORDER BY inmuebles.precio DESC LIMIT ?';
+          query+='ORDER BY inmuebles.precio DESC LIMIT ?';
         } else if (order == "low") {
-          query='ORDER BY inmuebles.precio ASC LIMIT ?';
+          query+='ORDER BY inmuebles.precio ASC LIMIT ?';
         }
 
         db.query(query,
