@@ -14,7 +14,7 @@ app.set('port', process.env.PORT || 3000);
 
 
 // Routes
-//const quienesSomosApi = require('./routes/quienesSomos');
+const quienesSomosApi = require('./routes/quienesSomos');
 const serviciosApi = require('./routes/servicios');
 const imagenesApi = require('./routes/imagenes');
 const datostecnicosApi = require('./routes/datosTecnicos');
@@ -26,7 +26,7 @@ const filtrosApi = require('./routes/filtros.js');
 const contactoApi = require('./routes/contacto');
 const partidosApi = require('./routes/partidos');
 
-//quienesSomosApi(app);
+quienesSomosApi(app);
 serviciosApi(app);
 imagenesApi(app);
 datostecnicosApi(app);
