@@ -10,7 +10,7 @@ function inmueblesApi(app) {
         const {idOperacion,precio,idPartido,idLocalidad,direccion,idCategoria,descripcion,estado, mostrarEstado,moneda,pass,lat,lon} = req.body;
         if (pass == password) {
           db.query(
-            "INSERT INTO inmuebles(idOperacion, precio, idPartido,idLocalidad, direccion, idCategoria, descripcion, estado, mostrarEstado,moneda,lat,lon) VALUES (? , ?, ?, ? , ?, ?, ?, ?, ?, ?,?,?)",
+            "INSERT INTO inmuebles(idOperacion, precio, idPartido,idLocalidad, direccion, idCategoria, descripcion, estado, mostrarEstado,moneda,lat,lon,activo) VALUES (? , ?, ?, ? , ?, ?, ?, ?, ?, ?,?,?,0)",
             [
               idOperacion,
               precio,
@@ -74,143 +74,66 @@ function inmueblesApi(app) {
       // FINAL FUNCIÓN ----- INSERTAR INMUEBLES -----
       
       // INICIO FUNCIÓN ----- MOSTRAR INMUEBLES -----
-      
+  
+
       router.get("/listar_inmuebles/:cantidad/:order", (req, res) => {
         const cantidad = parseInt(req.params.cantidad);
         const order = req.params.order;
-        if (order == "normal") {
-          db.query(
-            "SELECT  partidos.partido, localidades.localidad, tipo_operacion.operacion, categorias.categoria, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id ORDER BY inmuebles.id DESC LIMIT ?",
-            [cantidad],
-            (err, rows, fields) => {
-              if (!err) {
-                casas = [];
-                rows.forEach((inmueble) => {
-                  casas.push(inmueble.id);
-                });
-                db.query(
-                  "SELECT * FROM imagenes WHERE idCasa IN (?) AND header = true",
-                  [casas],
-                  (error, imagen, celdas) => {
-                    if (!error) {
-                      rows.forEach((propiedad) => {
-                        imagen.forEach((header) => {
-                          if (propiedad.id == header.idCasa) {
-                            propiedad.header = header.nombre;
-                          }
-                        });
-                      });
-      
-                      res.send({
-                        status: true,
-                        data: rows,
-                        info: "se muestran todas los inmuebles que hay en la DB",
-                      });
-                    } else {
-                      res.send({
-                        status: false,
-                        info: error,
-                      });
-                    }
-                  }
-                );
-              } else {
-                res.send({
-                  status: false,
-                  info: err,
-                });
-              }
-            }
-          );
-        } else if (order == "high") {
-          db.query(
-            "SELECT  partidos.partido, localidades.localidad, tipo_operacion.operacion, categorias.categoria, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id ORDER BY inmuebles.precio DESC LIMIT ?",
-            [cantidad],
-            (err, rows, fields) => {
-              if (!err) {
-                casas = [];
-                rows.forEach((inmueble) => {
-                  casas.push(inmueble.id);
-                });
-                db.query(
-                  "SELECT * FROM imagenes WHERE idCasa IN (?) AND header = true",
-                  [casas],
-                  (error, imagen, celdas) => {
-                    if (!error) {
-                      rows.forEach((propiedad) => {
-                        imagen.forEach((header) => {
-                          if (propiedad.id == header.idCasa) {
-                            propiedad.header = header.nombre;
-                          }
-                        });
-                      });
-      
-                      res.send({
-                        status: true,
-                        data: rows,
-                        info: "se muestran todas los inmuebles que hay en la DB",
-                      });
-                    } else {
-                      res.send({
-                        status: false,
-                        info: error,
-                      });
-                    }
-                  }
-                );
-              } else {
-                res.send({
-                  status: false,
-                  info: err,
-                });
-              }
-            }
-          );
-        } else if (order == "low") {
-          db.query(
-            "SELECT  partidos.partido, localidades.localidad, tipo_operacion.operacion, categorias.categoria, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id ORDER BY inmuebles.precio ASC LIMIT ?",
-            [cantidad],
-            (err, rows, fields) => {
-              if (!err) {
-                casas = [];
-                rows.forEach((inmueble) => {
-                  casas.push(inmueble.id);
-                });
-                db.query(
-                  "SELECT * FROM imagenes WHERE idCasa IN (?) AND header = true",
-                  [casas],
-                  (error, imagen, celdas) => {
-                    if (!error) {
-                      rows.forEach((propiedad) => {
-                        imagen.forEach((header) => {
-                          if (propiedad.id == header.idCasa) {
-                            propiedad.header = header.nombre;
-                          }
-                        });
-                      });
-      
-                      res.send({
-                        status: true,
-                        data: rows,
-                        info: "se muestran todas los inmuebles que hay en la DB",
-                      });
-                    } else {
-                      res.send({
-                        status: false,
-                        info: error,
-                      });
-                    }
-                  }
-                );
-              } else {
-                res.send({
-                  status: false,
-                  info: err,
-                });
-              }
-            }
-          );
+        const admin = req.get('admin');
+        let query = "SELECT  partidos.partido, localidades.localidad, tipo_operacion.operacion, categorias.categoria, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id ";
+        if(!admin){
+          query += "WHERE activo = 1 ";
         }
+        if (order == "normal") {
+          query='ORDER BY inmuebles.id DESC LIMIT ?';
+        } else if (order == "high") {
+          query='ORDER BY inmuebles.precio DESC LIMIT ?';
+        } else if (order == "low") {
+          query='ORDER BY inmuebles.precio ASC LIMIT ?';
+        }
+
+        db.query(query,
+          [cantidad],
+          (err, rows, fields) => {
+            if (!err) {
+              casas = [];
+              rows.forEach((inmueble) => {
+                casas.push(inmueble.id);
+              });
+              db.query(
+                "SELECT * FROM imagenes WHERE idCasa IN (?) AND header = true",
+                [casas],
+                (error, imagen, celdas) => {
+                  if (!error) {
+                    rows.forEach((propiedad) => {
+                      imagen.forEach((header) => {
+                        if (propiedad.id == header.idCasa) {
+                          propiedad.header = header.nombre;
+                        }
+                      });
+                    });
+    
+                    res.send({
+                      status: true,
+                      data: rows,
+                      info: "se muestran todas los inmuebles que hay en la DB",
+                    });
+                  } else {
+                    res.send({
+                      status: false,
+                      info: error,
+                    });
+                  }
+                }
+              );
+            } else {
+              res.send({
+                status: false,
+                info: err,
+              });
+            }
+          }
+        );
       });
       
       // FINAL FUNCIÓN ----- MOSTRAR INMUEBLES -----
@@ -350,6 +273,35 @@ function inmueblesApi(app) {
       });
       
       // FINAL FUNCIÓN ----- BORRAR INMUEBLE -----
+
+
+    router.put('habilitar_inmueble/:id/:pass',(req,res)=>{
+      const { id, pass } = req.params;
+      if (pass == password) {
+        db.query(
+          "UPDATE inmuebles SET activo = 1 WHERE idCasa = ?;",
+          [id],
+          (err, rows, fields) => {
+            if (!err) {
+              res.send({
+                status: true,
+                info: "se ha habilitado con éxito la propiedad",
+              });
+            } else {
+              res.send({
+                status: false,
+                info: err,
+              });
+            }
+          }
+        );
+      } else {
+        res.send({
+          status: false,
+          info: "la contraseña ingresada no es compatible",
+        });
+      }
+    })
 }
 
 module.exports = inmueblesApi;
