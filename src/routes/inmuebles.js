@@ -218,15 +218,17 @@ function inmueblesApi(app) {
               estado,
               mostrarEstado,
               moneda,
-              id,
               lat,
-              lon
+              lon,
+	      id
             ],
             (err, rows, fields) => {
               if (!err) {
                 res.send({
                   status: true,
                   info: "inmueble modificado con éxito",
+		lat,
+lon
                 });
               } else {
                 res.send({
