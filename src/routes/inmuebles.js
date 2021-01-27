@@ -283,11 +283,7 @@ function inmueblesApi(app) {
       const { id, pass } = req.params;
       if (pass == password) {
         db.query(
-<<<<<<< HEAD
           `UPDATE inmuebles SET activo = !activo WHERE id = ${id};`,
-=======
-          `UPDATE inmuebles SET activo = 1 WHERE idCasa = ${id};`,
->>>>>>> 2044d6421f7cd5efd10aa5207f0cbe8bb6470e01
           (err, rows, fields) => {
             if (!err) {
               res.send({
