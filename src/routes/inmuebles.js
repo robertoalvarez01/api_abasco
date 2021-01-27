@@ -201,10 +201,12 @@ function inmueblesApi(app) {
           estado,
           mostrarEstado,
           moneda,
+          lat,
+          lon
         } = req.body;
         if (pass == password) {
           db.query(
-            "UPDATE inmuebles SET idOperacion = ?, precio = ?, idPartido = ? ,idLocalidad = ?, direccion = ?, idCategoria = ?, descripcion = ?, estado = ?, mostrarEstado = ?,moneda = ? WHERE id = ?",
+            "UPDATE inmuebles SET idOperacion = ?, precio = ?, idPartido = ? ,idLocalidad = ?, direccion = ?, idCategoria = ?, descripcion = ?, estado = ?, mostrarEstado = ?,moneda = ?, lat = ?, lon = ? WHERE id = ?",
             [
               idOperacion,
               precio,
@@ -217,6 +219,8 @@ function inmueblesApi(app) {
               mostrarEstado,
               moneda,
               id,
+              lat,
+              lon
             ],
             (err, rows, fields) => {
               if (!err) {
@@ -279,8 +283,7 @@ function inmueblesApi(app) {
       const { id, pass } = req.params;
       if (pass == password) {
         db.query(
-          "UPDATE inmuebles SET activo = 1 WHERE idCasa = ?;",
-          [id],
+          `UPDATE inmuebles SET activo = 1 WHERE idCasa = ${id};`,
           (err, rows, fields) => {
             if (!err) {
               res.send({
