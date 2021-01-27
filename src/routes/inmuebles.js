@@ -275,12 +275,11 @@ function inmueblesApi(app) {
       // FINAL FUNCIÓN ----- BORRAR INMUEBLE -----
 
 
-    router.put('habilitar_inmueble/:id/:pass',(req,res)=>{
+    router.put('/habilitar_inmueble/:id/:pass',(req,res)=>{
       const { id, pass } = req.params;
       if (pass == password) {
         db.query(
-          "UPDATE inmuebles SET activo = 1 WHERE idCasa = ?;",
-          [id],
+          `UPDATE inmuebles SET activo = !activo WHERE id = ${id};`,
           (err, rows, fields) => {
             if (!err) {
               res.send({
