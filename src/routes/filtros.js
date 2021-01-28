@@ -171,6 +171,11 @@ function filtrosApi(app) {
         rows.forEach((inmueble) => {
           casas.push(inmueble.id);
         });
+        if(rows.length==0) return res.send({
+          status:true,
+          data:[],
+          info:'Sin resultados'
+        });
         db.query("SELECT * FROM imagenes WHERE idCasa = ? AND header = true",[casas],(error, imagen, celdas) => {
           if (!error) {
             rows.forEach((propiedad) => {
