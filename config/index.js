@@ -7,7 +7,15 @@ const config = {
     dbHost: process.env.DB_HOST_DEV,
     dbName: process.env.DB_NAME_DEV,
     idProjectGoogleCloud: process.env.PROJECT_ID_GCLOUD,
-    bucketGoogleCloud: process.env.BUCKET_GCLOUD 
+    bucketGoogleCloud: process.env.BUCKET_GCLOUD,
+
+
+    //EMAIL ACCOUNT
+
+    ACCOUNT_USERNAME:process.env.ACCOUNT_USERNAME,
+    ACCOUNT_PASSWORD:process.env.ACCOUNT_PASSWORD,
+    ACCOUNT_PORT:process.env.ACCOUNT_PORT,
+    ACCOUNT_HOST:process.env.ACCOUNT_HOST
 };
 
 module.exports = {config};
