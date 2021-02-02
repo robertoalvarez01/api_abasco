@@ -7,15 +7,16 @@ function inmueblesApi(app) {
     app.use("/",router);
 
     router.post("/insertar_inmueble", (req, res) => {
-        const {idOperacion,precio,idPartido,idLocalidad,direccion,idCategoria,descripcion,estado, mostrarEstado,moneda,pass,lat,lon} = req.body;
+        const {idOperacion,precio,idPartido,idLocalidad,idPartido,direccion,idCategoria,descripcion,estado, mostrarEstado,moneda,pass,lat,lon} = req.body;
         if (pass == password) {
           db.query(
-            "INSERT INTO inmuebles(idOperacion, precio, idPartido,idLocalidad, direccion, idCategoria, descripcion, estado, mostrarEstado,moneda,lat,lon,activo) VALUES (? , ?, ?, ? , ?, ?, ?, ?, ?, ?,?,?,0)",
+            "INSERT INTO inmuebles(idOperacion, precio, idPartido,idLocalidad, idBarrio,direccion, idCategoria, descripcion, estado, mostrarEstado,moneda,lat,lon,activo) VALUES (?, ? , ?, ?, ? , ?, ?, ?, ?, ?, ?,?,?,0)",
             [
               idOperacion,
               precio,
               idPartido,
               idLocalidad,
+              idPartido,
               direccion,
               idCategoria,
               descripcion,
@@ -34,6 +35,7 @@ function inmueblesApi(app) {
                     precio,
                     idPartido,
                     idLocalidad,
+                    idPartido,
                     direccion,
                     idCategoria,
                     descripcion,
@@ -80,7 +82,7 @@ function inmueblesApi(app) {
         const cantidad = parseInt(req.params.cantidad);
         const order = req.params.order;
         const admin = req.get('admin');
-        let query = "SELECT  partidos.partido, localidades.localidad, tipo_operacion.operacion, categorias.categoria, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id ";
+        let query = "SELECT  partidos.partido, localidades.localidad, barrios.barrio ,tipo_operacion.operacion, categorias.categoria, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN barrios ON inmuebles.idBarrio = barrios.idBarrio LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id ";
         if(!admin){
           query += "WHERE activo = 1 ";
         }
@@ -144,7 +146,7 @@ function inmueblesApi(app) {
         const id = req.params.id;
         if (id != undefined) {
           db.query(
-            "SELECT partidos.partido, localidades.localidad, tipo_operacion.operacion, categorias.categoria,servicios.*, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id LEFT JOIN servicios ON inmuebles.id = servicios.idCasa LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa WHERE inmuebles.id = ?;",
+            "SELECT partidos.partido, localidades.localidad, barrios.barrio,tipo_operacion.operacion, categorias.categoria,servicios.*, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN barrios ON inmuebles.idBarrio = barrios.idBarrio LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id LEFT JOIN servicios ON inmuebles.id = servicios.idCasa LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa WHERE inmuebles.id = ?;",
             [id],
             (err, rows, fields) => {
               if (!err) {
@@ -195,6 +197,7 @@ function inmueblesApi(app) {
           precio,
           idPartido,
           idLocalidad,
+          idBarrio,
           direccion,
           idCategoria,
           descripcion,
@@ -206,12 +209,13 @@ function inmueblesApi(app) {
         } = req.body;
         if (pass == password) {
           db.query(
-            "UPDATE inmuebles SET idOperacion = ?, precio = ?, idPartido = ? ,idLocalidad = ?, direccion = ?, idCategoria = ?, descripcion = ?, estado = ?, mostrarEstado = ?,moneda = ?, lat = ?, lon = ? WHERE id = ?",
+            "UPDATE inmuebles SET idOperacion = ?, precio = ?, idPartido = ? ,idLocalidad = ?, idBarrio=? direccion = ?, idCategoria = ?, descripcion = ?, estado = ?, mostrarEstado = ?,moneda = ?, lat = ?, lon = ? WHERE id = ?",
             [
               idOperacion,
               precio,
               idPartido,
               idLocalidad,
+              idBarrio,
               direccion,
               idCategoria,
               descripcion,
@@ -220,15 +224,13 @@ function inmueblesApi(app) {
               moneda,
               lat,
               lon,
-	      id
+	            id
             ],
             (err, rows, fields) => {
               if (!err) {
                 res.send({
                   status: true,
-                  info: "inmueble modificado con éxito",
-		lat,
-lon
+                  info: "inmueble modificado con éxito"
                 });
               } else {
                 res.send({
