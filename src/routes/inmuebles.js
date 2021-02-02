@@ -7,7 +7,7 @@ function inmueblesApi(app) {
     app.use("/",router);
 
     router.post("/insertar_inmueble", (req, res) => {
-        const {idOperacion,precio,idPartido,idLocalidad,idPartido,direccion,idCategoria,descripcion,estado, mostrarEstado,moneda,pass,lat,lon} = req.body;
+        const {idOperacion,precio,idPartido,idLocalidad,idBarrio,direccion,idCategoria,descripcion,estado, mostrarEstado,moneda,pass,lat,lon} = req.body;
         if (pass == password) {
           db.query(
             "INSERT INTO inmuebles(idOperacion, precio, idPartido,idLocalidad, idBarrio,direccion, idCategoria, descripcion, estado, mostrarEstado,moneda,lat,lon,activo) VALUES (?, ? , ?, ?, ? , ?, ?, ?, ?, ?, ?,?,?,0)",
@@ -16,7 +16,7 @@ function inmueblesApi(app) {
               precio,
               idPartido,
               idLocalidad,
-              idPartido,
+              idBarrio,
               direccion,
               idCategoria,
               descripcion,
@@ -35,7 +35,7 @@ function inmueblesApi(app) {
                     precio,
                     idPartido,
                     idLocalidad,
-                    idPartido,
+                    idBarrio,
                     direccion,
                     idCategoria,
                     descripcion,

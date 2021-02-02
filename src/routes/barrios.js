@@ -8,7 +8,7 @@ function barriosApi(app){
 
     router.get('/',(req,res)=>{
         db.query(`SELECT idBarrio, barrio, localidad FROM barrios as bar, localidades as loc
-                WHERE bar.idLocalidad = loc.idLocalidad ORDER BY bar.idBarrio DESC`, (err, rows, fields) => {
+                WHERE bar.idLocalidad = loc.id ORDER BY bar.idBarrio DESC`, (err, rows, fields) => {
             if (!err) {
               res.send({
                 status: true,
@@ -27,7 +27,7 @@ function barriosApi(app){
     router.get('/filtrarPorLocalidad',(req,res)=>{
         const {idLocalidad} = req.query;
         db.query(`SELECT idBarrio, barrio, localidad FROM barrios as bar, localidades as loc
-                WHERE bar.idLocalidad = loc.idLocalidad AND bar.idLocalidad = ${idLocalidad} ORDER BY bar.idBarrio DESC`, (err, rows, fields) => {
+                WHERE bar.idLocalidad = loc.id AND bar.idLocalidad = ${idLocalidad} ORDER BY bar.idBarrio DESC`, (err, rows, fields) => {
             if (!err) {
               res.send({
                 status: true,
@@ -46,7 +46,7 @@ function barriosApi(app){
     router.get('/filtrarPorLocalidad',(req,res)=>{
         const {idLocalidad} = req.query;
         db.query(`SELECT idBarrio, barrio, localidad FROM barrios as bar, localidades as loc
-                WHERE bar.idLocalidad = loc.idLocalidad AND bar.idLocalidad = ? ORDER BY bar.idBarrio DESC`,[idLocalidad],(err, rows, fields) => {
+                WHERE bar.idLocalidad = loc.id AND bar.idLocalidad = ? ORDER BY bar.idBarrio DESC`,[idLocalidad],(err, rows, fields) => {
             if (!err) {
               res.send({
                 status: true,
