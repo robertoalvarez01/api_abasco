@@ -24,15 +24,15 @@ function barriosApi(app){
         });
     })
 
-    router.get('/filtrarPorLocalidad',(req,res)=>{
-        const {idLocalidad} = req.query;
-        db.query(`SELECT idBarrio, barrio, localidad FROM barrios as bar, localidades as loc
-                WHERE bar.idLocalidad = loc.id AND bar.idLocalidad = ${idLocalidad} ORDER BY bar.idBarrio DESC`, (err, rows, fields) => {
+    router.get('/:id',(req,res)=>{
+        const {id} = req.query;
+        db.query(`SELECT idBarrio, barrio, localidad, bar.idLocalidad FROM barrios as bar, localidades as loc
+                WHERE bar.idLocalidad = loc.id AND bar.idBarrio = ${id}`, (err, rows, fields) => {
             if (!err) {
               res.send({
                 status: true,
                 data:rows,
-                info: "Barrios listados",
+                info: "Barrio listado",
               });
             } else {
               res.send({
