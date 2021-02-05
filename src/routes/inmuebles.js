@@ -209,7 +209,7 @@ function inmueblesApi(app) {
         } = req.body;
         if (pass == password) {
           db.query(
-            "UPDATE inmuebles SET idOperacion = ?, precio = ?, idPartido = ? ,idLocalidad = ?, idBarrio=? direccion = ?, idCategoria = ?, descripcion = ?, estado = ?, mostrarEstado = ?,moneda = ?, lat = ?, lon = ? WHERE id = ?",
+            "UPDATE inmuebles SET idOperacion = ?, precio = ?, idPartido = ? ,idLocalidad = ?, idBarrio=?, direccion = ?, idCategoria = ?, descripcion = ?, estado = ?, mostrarEstado = ?,moneda = ?, lat = ?, lon = ? WHERE id = ?",
             [
               idOperacion,
               precio,

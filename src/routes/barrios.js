@@ -7,7 +7,7 @@ function barriosApi(app){
     app.use("/barrios",router);
 
     router.get('/',(req,res)=>{
-        db.query(`SELECT idBarrio, barrio, localidad FROM barrios as bar, localidades as loc
+        db.query(`SELECT idBarrio, barrio, localidad, bar.idLocalidad FROM barrios as bar, localidades as loc
                 WHERE bar.idLocalidad = loc.id ORDER BY bar.idBarrio DESC`, (err, rows, fields) => {
             if (!err) {
               res.send({
@@ -25,7 +25,7 @@ function barriosApi(app){
     })
 
     router.get('/:id',(req,res)=>{
-        const {id} = req.query;
+        const {id} = req.params;
         db.query(`SELECT idBarrio, barrio, localidad, bar.idLocalidad FROM barrios as bar, localidades as loc
                 WHERE bar.idLocalidad = loc.id AND bar.idBarrio = ${id}`, (err, rows, fields) => {
             if (!err) {
