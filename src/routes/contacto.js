@@ -47,7 +47,7 @@ function contactoApi(app) {
         }).catch(err=>{
             res.send({
                 status:false,
-                error:err.message
+                error:err
             })
         })
     })

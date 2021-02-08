@@ -98,6 +98,7 @@ function inmueblesApi(app) {
         db.query(query,
           [cantidad],
           (err, rows, fields) => {
+		if(rows.length==0) return res.send({status:true,data:[]});
             if (!err) {
               casas = [];
               rows.forEach((inmueble) => {
