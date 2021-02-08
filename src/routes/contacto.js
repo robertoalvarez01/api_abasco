@@ -32,12 +32,16 @@ function contactoApi(app) {
 
     router.post('/sendMail',async(req,res,next)=>{
         const {body} = req;
+        let text = `${body.nombre} <${body.email}> \n ${body.mensaje}`;
+        if(req.body.propiedad){
+            text = `${body.nombre} <${body.email}> \n Propiedad: ${req.body.propiedad} \n ${body.mensaje}`
+        }
         const nodemailer = new Nodemailer();
         const mailOptions={
             from:body.nombre,
             to:`${config.ACCOUNT_USERNAME}`,
             subject:body.asunto,
-            text:`${body.nombre} <${body.email}> \n ${body.mensaje}`
+            text
         };
         nodemailer.send(mailOptions).then(result=>{
             res.status(200).json({
