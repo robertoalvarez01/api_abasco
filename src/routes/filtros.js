@@ -156,7 +156,7 @@ function filtrosApi(app) {
   
   router.get("/filtrar_todo/:idLocalidad/:idBarrio/:idCategoria/:idOperacion/:order/:moneda",(req, res) => {
     const { idLocalidad, idBarrio,idCategoria, idOperacion, order, moneda } = req.params;
-    let query = `SELECT partidos.partido, localidades.localidad, barrios.barrio,tipo_operacion.operacion, categorias.categoria, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN barrios ON inmuebles.idBarrio = barrios.idBarrio LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id WHERE idLocalidad = ${idLocalidad} AND idBarrio = ${idBarrio} AND idCategoria = ${idCategoria} AND idOperacion = ${idOperacion} AND moneda = '${moneda}'`;
+    let query = `SELECT partidos.partido, localidades.localidad, barrios.barrio,tipo_operacion.operacion, categorias.categoria, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN barrios ON inmuebles.idBarrio = barrios.idBarrio LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id WHERE inmuebles.idLocalidad = ${idLocalidad} AND inmuebles.idBarrio = ${idBarrio}  AND idCategoria = ${idCategoria} AND idOperacion = ${idOperacion} AND moneda = '${moneda}'`;
     if(req.query.minPrecio && req.query.maxPrecio){
       query += ` AND inmuebles.precio BETWEEN ${req.query.minPrecio} AND ${req.query.maxPrecio}`;
     }
@@ -176,7 +176,7 @@ function filtrosApi(app) {
           data:[],
           info:'Sin resultados'
         });
-        db.query("SELECT * FROM imagenes WHERE idCasa = ? AND header = true",[casas],(error, imagen, celdas) => {
+        db.query("SELECT * FROM imagenes WHERE idCasa IN (?) AND header = 1",[casas],(error, imagen, celdas) => {
           if (!error) {
             rows.forEach((propiedad) => {
               imagen.forEach((header) => {
