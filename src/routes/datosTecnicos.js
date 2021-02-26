@@ -103,7 +103,7 @@ function datostecnicosApi(app) {
         } = req.body;
         if (pass == password) {
           db.query(
-            "INSERT INTO datos_tecnicos(idCasa, dormitorios, s_terreno, s_cubierta, s_semicubierta, s_total, cochera, pileta, u_medida) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO datos_tecnicos(idCasa, dormitorios, s_terreno, s_cubierta, s_semicubierta, s_total, cochera, pileta, u_medida) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)",
             [
               idCasa,
               dormitorios,
