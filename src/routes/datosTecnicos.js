@@ -7,10 +7,10 @@ function datostecnicosApi(app) {
     app.use("/",router);
 
     router.put("/modificar_dato_tecnico", (req, res) => {
-        const {pass,idCasa,dormitorios,s_terreno,s_cubierta,s_semicubierta,cochera,pileta,} = req.body;
+        const {pass,idCasa,dormitorios,s_terreno,s_cubierta,s_semicubierta,s_total,cochera,pileta,u_medida} = req.body;
         if (pass == password) {
           db.query(
-            "UPDATE datos_tecnicos SET  dormitorios =?, s_terreno =?, s_cubierta =?, s_semicubierta =?, cochera =?, pileta =? WHERE idCasa = ?",[dormitorios,s_terreno,s_cubierta,s_semicubierta,cochera,pileta,idCasa,],(err, rows, fields) => {
+            "UPDATE datos_tecnicos SET  dormitorios =?, s_terreno =?, s_cubierta =?, s_semicubierta =?, s_total=?, cochera =?, pileta =?, u_medida = ? WHERE idCasa = ?",[dormitorios,s_terreno,s_cubierta,s_semicubierta,s_total,cochera,pileta,u_medida,idCasa,],(err, rows, fields) => {
                 if (!err) {
                     res.send({
                     status: true,
@@ -96,20 +96,24 @@ function datostecnicosApi(app) {
           s_terreno,
           s_cubierta,
           s_semicubierta,
+          s_total,
           cochera,
           pileta,
+          u_medida
         } = req.body;
         if (pass == password) {
           db.query(
-            "INSERT INTO datos_tecnicos(idCasa, dormitorios, s_terreno, s_cubierta, s_semicubierta, cochera, pileta) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO datos_tecnicos(idCasa, dormitorios, s_terreno, s_cubierta, s_semicubierta, s_total, cochera, pileta, u_medida) VALUES (?, ?, ?, ?, ?, ?, ?)",
             [
               idCasa,
               dormitorios,
               s_terreno,
               s_cubierta,
               s_semicubierta,
+              s_total,
               cochera,
               pileta,
+              u_medida
             ],
             (err, rows, fields) => {
               if (!err) {
