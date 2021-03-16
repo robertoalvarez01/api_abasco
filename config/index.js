@@ -15,7 +15,8 @@ const config = {
     ACCOUNT_USERNAME:process.env.ACCOUNT_USERNAME,
     ACCOUNT_PASSWORD:process.env.ACCOUNT_PASSWORD,
     ACCOUNT_PORT:process.env.ACCOUNT_PORT,
-    ACCOUNT_HOST:process.env.ACCOUNT_HOST
+    ACCOUNT_HOST:process.env.ACCOUNT_HOST,
+    FROM_USERNAME:process.env.FROM_USERNAME
 };
 
 module.exports = {config};

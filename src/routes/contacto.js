@@ -39,7 +39,7 @@ function contactoApi(app) {
         const nodemailer = new Nodemailer();
         const mailOptions={
             from:body.nombre,
-            to:`${config.ACCOUNT_USERNAME}`,
+            to:`${config.FROM_USERNAME}`,
             subject:body.asunto,
             text
         };

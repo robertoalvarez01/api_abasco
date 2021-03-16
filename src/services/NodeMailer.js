@@ -4,9 +4,9 @@ const {config} = require('../../config/index');
 class Nodemailer{
     constructor() {
         this.transporter = nodemailer.createTransport({
-            // host:config.ACCOUNT_HOST,
-            // port:config.ACCOUNT_PORT,
-            secure:false,
+            host:config.ACCOUNT_HOST,
+            port:config.ACCOUNT_PORT,
+            segure:true,
             service:'gmail',
             auth:{
                 user:config.ACCOUNT_USERNAME,
