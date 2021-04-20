@@ -13,32 +13,21 @@ app.use(express.json());
 app.set('port', process.env.PORT || 3000);
 
 
-// Routes
-const quienesSomosApi = require('./routes/quienesSomos');
-const serviciosApi = require('./routes/servicios');
-const imagenesApi = require('./routes/imagenes');
-const datostecnicosApi = require('./routes/datosTecnicos');
-const inmueblesApi = require('./routes/inmuebles');
-const localidadesApi = require('./routes/localidades');
-const operacionesApi = require('./routes/operaciones.js');
-const categoriasapi = require('./routes/categorias.js');
-const filtrosApi = require('./routes/filtros.js');
-const contactoApi = require('./routes/contacto');
-const partidosApi = require('./routes/partidos');
-const barriosApi = require('./routes/barrios');
+//importar rutas
+app.use('/api/usuarios',require('./routes/usuario'));
+app.use('/api/auth',require('./routes/auth'));
+app.use('/api/nosotros',require('./routes/quienesSomos'));
+app.use('/api/imagenes',require('./routes/imagenes'));
+app.use('/api/datos-tecnicos',require('./routes/datosTecnicos'));
+app.use('/api/inmuebles',require('./routes/inmuebles'));
+app.use('/api/localidades',require('./routes/localidades'));
+app.use('/api/operaciones',require('./routes/operaciones'));
+app.use('/api/categorias',require('./routes/categorias'));
+app.use('/api/filtros',require('./routes/filtros'));
+app.use('/api/contacto',require('./routes/contacto'));
+app.use('/api/partidos',require('./routes/partidos'));
+app.use('/api/barrios',require('./routes/barrios'));
 
-quienesSomosApi(app);
-serviciosApi(app);
-imagenesApi(app);
-datostecnicosApi(app);
-inmueblesApi(app);
-localidadesApi(app);
-operacionesApi(app);
-categoriasapi(app);
-filtrosApi(app);
-contactoApi(app);
-partidosApi(app);
-barriosApi(app);
 
 app.listen(app.get('port'), () => {
     console.log('Servidor escuchando en el puerto: ', app.get('port'));

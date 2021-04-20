@@ -13,8 +13,8 @@ class QuienesSomosService{
         return datos;
     }
 
-    async update(contenido,pass){
-        const datos = await this.qsModel.update(contenido,pass).then(res=>{
+    async update(contenido){
+        const datos = await this.qsModel.update(contenido).then(res=>{
             return res;
         });
         return datos;

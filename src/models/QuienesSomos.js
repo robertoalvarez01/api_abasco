@@ -16,7 +16,7 @@ class QuienesSomosModel{
         })
     }
 
-    update(contenido,pass){
+    update(contenido){
         return new Promise((resolve,reject)=>{
             db.query("UPDATE recursos SET contenido = ? WHERE id = 1",[contenido],(err, rows, fields) => {
                 if (err) {
