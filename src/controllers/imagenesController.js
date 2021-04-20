@@ -1,5 +1,5 @@
 const CloudStorage = require('../services/CloudStorage');
-const ImagenesService = require('../services/Imagenes');
+const ImagenesService = require('../services/ImagenesService');
 
 exports.agregar = async (req,res)=>{
     const cs = new CloudStorage();

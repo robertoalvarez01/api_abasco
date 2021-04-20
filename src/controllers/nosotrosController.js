@@ -1,4 +1,4 @@
-const QuienesSomosService = require('../services/quienesSomos.js');
+const QuienesSomosService = require('../services/NosotrosService.js');
 
 exports.getInfo = async (req,res)=>{
     const quienesSomosService = new QuienesSomosService();
