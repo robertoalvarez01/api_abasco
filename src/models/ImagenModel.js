@@ -56,6 +56,18 @@ class ImagenModel {
             });
         })
     }
+
+    getHeadersByIdCasa(id){
+        return new Promise((resolve,reject)=>{
+            db.query("SELECT * FROM imagenes WHERE idCasa IN (?) AND header = true", [id], (err, rows, fields) => {
+                if (!err) {
+                  resolve(rows);
+                } else {
+                    throw err;
+                }
+            });
+        })
+    }
 }
 
 module.exports = ImagenModel;

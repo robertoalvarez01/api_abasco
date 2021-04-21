@@ -1,143 +1,36 @@
 const express = require('express');
-const db = require("../database/database");
-const password = "ZAQ12wsx";
-
-function datostecnicosApi(app) {
-    const router = express.Router();
-    app.use("/",router);
-
-    router.put("/modificar_dato_tecnico", (req, res) => {
-        const {pass,idCasa,dormitorios,s_terreno,s_cubierta,s_semicubierta,s_total,cochera,pileta,u_medida} = req.body;
-        if (pass == password) {
-          db.query(
-            "UPDATE datos_tecnicos SET  dormitorios =?, s_terreno =?, s_cubierta =?, s_semicubierta =?, s_total=?, cochera =?, pileta =?, u_medida = ? WHERE idCasa = ?",[dormitorios,s_terreno,s_cubierta,s_semicubierta,s_total,cochera,pileta,u_medida,idCasa,],(err, rows, fields) => {
-                if (!err) {
-                    res.send({
-                    status: true,
-                    info: "Dato tecnico modificado con éxito",
-                    });
-                } else {
-                    res.send({
-                    status: false,
-                    info: err,
-                    });
-                }
-            });
-        } else {
-          res.send({
-            status: false,
-            info: "la contraseña ingresada no es compatible",
-          });
-        }
-    });
-      
-      // FINAL FUNCIÓN ----- MODIFICAR DATO TECNICO -----
-      
-      // INICIO FUNCIÓN ----- BORRAR DATO TECNICO -----
-      
-      router.delete("/borrar_dato_tecnico/:id/:pass", (req, res) => {
-        const { id, pass } = req.params;
-        if (pass == password) {
-          db.query(
-            "DELETE FROM datos_tecnicos WHERE id=?",
-            [id],
-            (err, rows, fields) => {
-              if (!err) {
-                res.send({
-                  status: true,
-                  info: "se ha borrado con éxito el registro",
-                });
-              } else {
-                res.send({
-                  status: false,
-                  info: err,
-                });
-              }
-            }
-          );
-        } else {
-          res.send({
-            status: false,
-            info: "la contraseña ingresada no es compatible",
-          });
-        }
-      });
-      
-      // FINAL FUNCIÓN ----- BORRAR DATO TECNICO -----
-      
-      // INICIO FUNCIÓN ----- MOSTRAR DATOS TECNICOS -----
-      
-      router.get("/datos_tecnicos", (req, res) => {
-        db.query("SELECT * FROM datos_tecnicos", (err, rows, fields) => {
-          if (!err) {
-            res.send({
-              status: true,
-              data: rows,
-              info: "se muestran todos los datos tecnicos que hay en la DB",
-            });
-          } else {
-            res.send({
-              status: false,
-              info: err,
-            });
-          }
-        });
-      });
-      
-      // FINAL FUNCIÓN ----- MOSTRAR DATOS TECNICOS -----
-      
-      // INICIO FUNCIÓN ----- INSERTAR DATOS TECNICOS -----
-      
-      router.post("/insertar_dato_tecnico", (req, res) => {
-        const {
-          pass,
-          idCasa,
-          dormitorios,
-          s_terreno,
-          s_cubierta,
-          s_semicubierta,
-          s_total,
-          cochera,
-          pileta,
-          u_medida
-        } = req.body;
-        if (pass == password) {
-          db.query(
-            "INSERT INTO datos_tecnicos(idCasa, dormitorios, s_terreno, s_cubierta, s_semicubierta, s_total, cochera, pileta, u_medida) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)",
-            [
-              idCasa,
-              dormitorios,
-              s_terreno,
-              s_cubierta,
-              s_semicubierta,
-              s_total,
-              cochera,
-              pileta,
-              u_medida
-            ],
-            (err, rows, fields) => {
-              if (!err) {
-                res.send({
-                  status: true,
-                  info: "operacion insertada con éxito",
-                });
-              } else {
-                res.send({
-                  status: false,
-                  info: err,
-                });
-              }
-            }
-          );
-        } else {
-          res.send({
-            status: false,
-            info: "la contraseña ingresada no es compatible",
-          });
-        }
-      });
-      
-}
+const router = express.Router();
+const validatorParams = require('../middlewares/validatorParams');
+const verifyToken = require('../middlewares/auth');
+const { check } = require('express-validator');
+const datoTecnicoController = require('../controllers/datoTecnicoController');
 
 
-module.exports = datostecnicosApi;
+router.get("/",datoTecnicoController.getAll);
+
+router.post("/",[
+  check('dormitorios','Dormitorio obligatorio'),
+  check('s_terreno','s_terreno obligatorio'),
+  check('s_cubierta','s_cubierta obligatorio'),
+  check('s_semicubierta','s_semicubierta obligatorio'),
+  check('s_total','s_total obligatorio'),
+  check('cochera','cochera obligatorio'),
+  check('pileta','pileta obligatorio'),
+  check('u_medida','u_medida obligatorio'),
+  check('idCasa','idCasa obligatorio'),
+],validatorParams,verifyToken,datoTecnicoController.create);
+
+router.put("/",[
+  check('dormitorios','Dormitorio obligatorio'),
+  check('s_terreno','s_terreno obligatorio'),
+  check('s_cubierta','s_cubierta obligatorio'),
+  check('s_semicubierta','s_semicubierta obligatorio'),
+  check('s_total','s_total obligatorio'),
+  check('cochera','cochera obligatorio'),
+  check('pileta','pileta obligatorio'),
+  check('u_medida','u_medida obligatorio'),
+  check('idCasa','idCasa obligatorio'),
+],validatorParams,verifyToken,datoTecnicoController.update);
+
+router.delete("/:id",verifyToken,datoTecnicoController.delete);
+

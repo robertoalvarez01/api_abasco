@@ -29,10 +29,10 @@ class LocalidadModel{
         })
     }
 
-    update(body,id){
+    update(body){
         return new Promise((resolve,reject)=>{
             db.query("UPDATE localidades SET idPartido = ? , localidad = ? WHERE id = ?",
-            [body.idPartido, body.localidad, id],(err,res,fields)=>{
+            [body.idPartido, body.localidad, body.id],(err,res,fields)=>{
                 if(err) throw err;
                 resolve(res);
             })

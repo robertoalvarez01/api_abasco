@@ -17,6 +17,12 @@ class BarriosService{
         })
     }
 
+    async getByLocalidad(idLocalidad){
+        return this.model.findByLocalidad(idLocalidad).then(res=>{
+            return res;
+        })
+    }
+
     async create(body){
         return this.model.create(body).then(res=>{
             return res;

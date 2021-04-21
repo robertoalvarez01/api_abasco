@@ -17,6 +17,12 @@ class CategoriaService{
         })
     }
 
+    async search(name){
+        return this.model.findByNombre(name).then(res=>{
+            return res;
+        })
+    }
+
     async create(body){
         return this.model.create(body).then(res=>{
             return res;

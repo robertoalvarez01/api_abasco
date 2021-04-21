@@ -5,8 +5,8 @@ class InmuebleService{
         this.model = new InmuebleModel();
     }
 
-    async getAll(admin,desde,cantidad){
-        return this.model.getAll(admin,desde,cantidad).then(res=>{
+    async getAll(admin,desde,cantidad,order){
+        return this.model.getAll(admin,desde,cantidad,order).then(res=>{
             return res;
         })
     }

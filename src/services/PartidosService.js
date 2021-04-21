@@ -17,14 +17,14 @@ class PartidosService{
         })
     }
 
-    async create(partido){
-        return this.partidoModel.create(partido).then(res=>{
+    async create(body){
+        return this.partidoModel.create(body).then(res=>{
             return res;
         })
     };
 
-    async update(partido,id){
-        return this.partidoModel.update(partido,id).then(res=>{
+    async update(body,id){
+        return this.partidoModel.update(body,id).then(res=>{
             return res;
         })
     };

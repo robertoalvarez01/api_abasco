@@ -20,18 +20,18 @@ class PartidoModel{
         })
     };
 
-    create(partido){
+    create(body){
         return new Promise((resolve,reject)=>{
-            db.query(`INSERT INTO partidos (partido) VALUES ('${partido}')`,(err,res,fields)=>{
+            db.query(`INSERT INTO partidos (partido) VALUES ('${body.partido}')`,(err,res,fields)=>{
                 if(err) throw new Error(err);
                 resolve(res);
             })
         })
     };
 
-    update(partido,id){
+    update(body,id){
         return new Promise((resolve,reject)=>{
-            db.query(`UPDATE partidos set partido = '${partido}' WHERE id = ${id}`,(err,res,fields)=>{
+            db.query(`UPDATE partidos set partido = '${body.partido}' WHERE id = ${id}`,(err,res,fields)=>{
                 if(err) throw new Error(err);
                 resolve(res);
             })

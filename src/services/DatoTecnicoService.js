@@ -23,8 +23,8 @@ class DatoTecnicoService{
         })
     };
 
-    async update(body,id){
-        return this.model.update(body,id).then(res=>{
+    async update(body){
+        return this.model.update(body).then(res=>{
             return res;
         })
     };

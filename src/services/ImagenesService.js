@@ -71,6 +71,16 @@ class ImageneService{
         }
     }
 
+    async getHeaders(id){
+        try {
+            const headers = await this.model.getHeadersByIdCasa(id);
+            return headers;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
 }
 
 module.exports = ImageneService;

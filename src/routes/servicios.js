@@ -1,109 +1,31 @@
 const express = require('express');
-const db = require("../database/database");
-const password = "ZAQ12wsx";
+const router = express.Router();
+const validatorParams = require('../middlewares/validatorParams');
+const verifyToken = require('../middlewares/auth');
+const { check } = require('express-validator');
+const serviciosController = require('../controllers/servicioController');
 
-function serviciosApi(app) {
-    const router = express.Router();
-    app.use("/",router);
-    
-    router.post("/insertar_servicio", (req, res) => {
-        const { idCasa, luz, agua, calefaccion, telefono,
-          gas, internet, pass,} = req.body;
-        if (pass == password) {
-          db.query(
-            "INSERT INTO servicios(idCasa, luz, agua, calefaccion, telefono, gas, internet) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [idCasa, luz, agua, calefaccion, telefono, gas, internet],
-            (err, rows, fields) => {
-              if (!err) {
-                res.send({
-                  status: true,
-                  info: "servicio insertado con éxito",
-                });
-              } else {
-                res.send({
-                  status: false,
-                  info: err,
-                });
-              }
-            }
-          );
-        } else {
-          res.send({
-            status: false,
-            info: "la contraseña ingresada no es compatible",
-          });
-        }
-    });
-      
-    router.put("/modificar_servicio", (req, res) => {
-        const {idCasa, luz, agua, calefaccion, telefono, gas, internet, pass} = req.body;
-        if (pass == password) {
-          db.query(
-            "UPDATE servicios SET  luz =?, agua =?, calefaccion =?, telefono=?, gas=?, internet=? WHERE idCasa = ?",
-            [luz, agua, calefaccion, telefono, gas, internet, idCasa],
-            (err, rows, fields) => {
-              if (!err) {
-                res.send({
-                  status: true,
-                  info: "Servicio modificado con éxito",
-                });
-              } else {
-                res.send({
-                  status: false,
-                  info: err,
-                });
-              }
-            }
-          );
-        } else {
-          res.send({
-            status: false,
-            info: "la contraseña ingresada no es compatible",
-          });
-        }
-    });
-      
-    router.delete("/borrar_servcio", (req, res) => {
-        const { id, pass } = req.body;
-        if (pass == password) {
-          db.query("DELETE FROM servicios WHERE id=?", [id], (err, rows, fields) => {
-            if (!err) {
-              res.send({
-                status: true,
-                info: "se ha borrado con éxito el registro",
-              });
-            } else {
-              res.send({
-                status: false,
-                info: err,
-              });
-            }
-          });
-        } else {
-          res.send({
-            status: false,
-            info: "la contraseña ingresada no es compatible",
-          });
-        }
-    });
-      
-    router.get("/servicios", (req, res) => {
-        db.query("SELECT * FROM servicios", (err, rows, fields) => {
-          if (!err) {
-            res.send({
-              status: true,
-              data: rows,
-              info: "se muestran todos los servicios que hay en la DB",
-            });
-          } else {
-            res.send({
-              status: false,
-              info: err,
-            });
-          }
-        });
-    });
-      
-}
+router.get("/",serviciosController.getAll);
 
-module.exports = serviciosApi;
+router.post("/",[
+  check('idCasa','IdCasa es obligatorio'),
+  check('luz','Luz es obligatorio'),
+  check('agua','Agua es obligatorio'),
+  check('calefaccion','calefaccion es obligatorio'),
+  check('telefono','telefono es obligatorio'),
+  check('gas','gas es obligatorio'),
+  check('internet','internet es obligatorio')
+],validatorParams,verifyToken,serviciosController.create);
+  
+router.put("/",[
+  check('idCasa','IdCasa es obligatorio'),
+  check('luz','Luz es obligatorio'),
+  check('agua','Agua es obligatorio'),
+  check('calefaccion','calefaccion es obligatorio'),
+  check('telefono','telefono es obligatorio'),
+  check('gas','gas es obligatorio'),
+  check('internet','internet es obligatorio')
+],validatorParams,verifyToken,serviciosController.update);
+  
+router.delete("/:id",verifyToken,serviciosController.delete);
+  
