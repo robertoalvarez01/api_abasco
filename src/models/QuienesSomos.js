@@ -7,10 +7,7 @@ class QuienesSomosModel{
                 if (!err) {
                   resolve(rows);
                 } else {
-                  res.send({
-                    status: false,
-                    info: err,
-                  });
+                  reject(err)
                 }
             });
         })
@@ -20,7 +17,7 @@ class QuienesSomosModel{
         return new Promise((resolve,reject)=>{
             db.query("UPDATE recursos SET contenido = ? WHERE id = 1",[contenido],(err, rows, fields) => {
                 if (err) {
-                    console.log(err);
+                    reject(err);
                 } else {
                     resolve(rows);
                 }

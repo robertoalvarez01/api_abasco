@@ -16,7 +16,7 @@ app.set('port', process.env.PORT || 3000);
 //importar rutas
 app.use('/api/usuarios',require('./routes/usuario'));
 app.use('/api/auth',require('./routes/auth'));
-// app.use('/api/nosotros',require('./routes/quienesSomos'));
+app.use('/api/nosotros',require('./routes/quienesSomos'));
 // app.use('/api/imagenes',require('./routes/imagenes'));
 // app.use('/api/datos-tecnicos',require('./routes/datosTecnicos'));
 // app.use('/api/inmuebles',require('./routes/inmuebles'));

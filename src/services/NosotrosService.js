@@ -7,17 +7,27 @@ class QuienesSomosService{
     }
     
     async get(){
-        const datos = await this.qsModel.get().then(res=>{
-            return res;
-        });
-        return datos;
+        return new Promise(async(resolve, reject) => {
+            try{
+                const datos = await this.qsModel.get();
+                resolve(datos);
+            }catch(err){
+                reject(err);
+            }
+        })
+        
     }
 
     async update(contenido){
-        const datos = await this.qsModel.update(contenido).then(res=>{
-            return res;
-        });
-        return datos;
+        return new Promise(async(resolve, reject) => {
+            try{
+                const datos = await this.qsModel.update(contenido);
+                resolve(datos);
+            }catch(err){
+                reject(err);
+            }
+        })
+        
     }
 }
 

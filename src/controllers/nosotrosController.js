@@ -12,7 +12,10 @@ exports.getInfo = async (req,res)=>{
     } catch (error) {
         res.status(500).json({
             ok:false,
-            msg:'Problemas en el servidor'
+            msg:error.message,
+            info:{
+                error
+            }
         })
     }
 }
@@ -29,7 +32,10 @@ exports.modificarInfo = async (req,res)=>{
     } catch (error) {
         res.status(500).json({
             ok:false,
-            msg:'Problemas en el servidor'
+            msg:error.message,
+            info:{
+                error
+            }
         })
     }
 }
