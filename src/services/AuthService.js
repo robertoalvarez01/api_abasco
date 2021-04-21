@@ -5,22 +5,26 @@ class AuthService {
         this.model = new AuthModel();
     }
 
-    async login(email){
-        try {
-            const reqLogin = await this.model.login(email);
-            return reqLogin;
-        } catch (error) {
-            return false;
-        }
+    login(email){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const reqLogin = await this.model.login(email);
+                resolve(reqLogin);
+            } catch (error) {
+                reject(error);
+            }
+        }) 
     }
 
-    async getById(id){
-        try {
-            const user = await this.model.get(id);
-            return user;
-        } catch (error) {
-            return false;
-        }
+    getById(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const user = await this.model.get(id);
+                resolve(user);
+            } catch (error) {
+                reject(error);
+            }            
+        })
     }
 }
 

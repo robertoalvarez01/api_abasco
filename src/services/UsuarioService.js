@@ -5,64 +5,82 @@ class UsuarioService {
         this.model = new UsuarioModel();
     }
 
-    async getAll(desde,limite){
-        try {
-            const req = await this.model.getAll(desde,limite);
-            return req;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    getAll(desde,limite){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const req = await this.model.getAll(desde,limite);
+                resolve(req);
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 
-    async findById(id){
-        try {
-            const user = await this.model.findById(id);
-            return user;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    findById(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const user = await this.model.findById(id);
+                resolve(user);
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 
-    async findByEmail(email){
-        try {
-            const user = await this.model.findByEmail(email);
-            return user;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    findByEmail(email){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const user = await this.model.findByEmail(email);
+                resolve(user);
+            } catch (error) {
+                //console.log(error);
+                reject(error);
+            }
+        })
     }
 
-    async create(body){
-        try {
-            const users = await this.model.create(body);
-            return users;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    create(body){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const users = await this.model.create(body);
+                resolve(users);
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 
-    async update(body,id){
-        try {
-            const user = await this.model.update(body,id);
-            return user;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    createAdmin(body){
+        return new Promise(async(resolve,reject)=>{
+            try {
+                const users = await this.model.createAdmin(body);
+                resolve(users);
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 
-    async delete(id){
-        try {
-            const req = await this.model.delete(id);
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    update(body,id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const user = await this.model.update(body,id);
+                resolve(user);
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
+
+    delete(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const req = await this.model.delete(id);
+                resolve(req);
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 }
 

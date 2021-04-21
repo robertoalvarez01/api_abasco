@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const verifyToken = (req,res,next)=>{
+let verifyToken = (req,res,next)=>{
     //leer token del header
     const token = req.header('x-auth-token');
 
@@ -11,9 +11,20 @@ const verifyToken = (req,res,next)=>{
     try {
         const cifrado = jwt.verify(token, process.env.JWT_SECRET);
         req.usuario = cifrado.usuario;
+        next();
     } catch (error) {
         res.status(401).json({ok:false,msg:'token no valido'})
     }
 }
 
-module.exports = verifyToken;
+let verifyAdminUser = (req,res,next)=>{
+    //usuario que hizo la peticion
+    const usuario = req.usuario;
+    if(usuario.admin === 1){
+        next();
+    }else{
+        res.status(401).json({ok:false,msg:'No tienes permisos suficientes para realizar esta acción.'})
+    }
+}
+
+module.exports = {verifyToken,verifyAdminUser};

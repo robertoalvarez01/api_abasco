@@ -3,7 +3,7 @@ const db = require('../database/database');
 class UsuarioModel{
     getAll(desde,limite){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT idUsuario,email,nombre,foto FROM usuarios LIMIT ${desde},${limite}`,(err,res,fields)=>{
+            db.query(`SELECT idUsuario,email,nombre,foto,admin FROM usuarios LIMIT ${desde},${limite}`,(err,res,fields)=>{
                 if(err) throw err;
                 resolve(res);
             })
@@ -21,8 +21,10 @@ class UsuarioModel{
 
     findByEmail(email){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT * FROM usuarios WHERE email = '${email}'`,(err,res,fields)=>{
-                if(err) throw err;
+            db.query(`SELECT * FROM usuarios WHERE email = "${email}"`,(err,res,fields)=>{
+                if(err) {
+                    reject(err);
+                };
                 resolve(res);
             })
         })
@@ -30,8 +32,17 @@ class UsuarioModel{
 
     create(body){
         return new Promise((resolve,reject)=>{
-            db.query(`INSERT INTO usuarios (email,pw,nombre,foto) VALUES ('${body.email}','${body.pw}','${body.nombre}','${body.foto}')`,(err,res,fields)=>{
-                if(err) throw err;
+            db.query(`INSERT INTO usuarios (email,pw,nombre,foto,admin) VALUES ('${body.email}','${body.pw}','${body.nombre}','${body.foto}',0)`,(err,res,fields)=>{
+                if(err) reject(err);
+                resolve(res);
+            })
+        })
+    }
+
+    createAdmin(body){
+        return new Promise((resolve,reject)=>{
+            db.query(`INSERT INTO usuarios (email,pw,nombre,foto,admin) VALUES ('${body.email}','${body.pw}','${body.nombre}','${body.foto}',${body.admin})`,(err,res,fields)=>{
+                if(err) reject(err);
                 resolve(res);
             })
         })
