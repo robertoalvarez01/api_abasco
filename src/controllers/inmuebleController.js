@@ -6,7 +6,7 @@ exports.getAll = async(req,res)=>{
     const imagenesService = new ImageneService();
     try {
         const {query:{cantidad,order,desde}} = req;
-        const admin = req.get('admin');
+        const admin = req.usuario ? req.usuario.admin : 0;
 
         const inmuebles = await inmuebleService.getAll(admin,desde,cantidad,order);
         if(inmuebles.length === 0){
@@ -40,7 +40,7 @@ exports.getAll = async(req,res)=>{
         res.status(500).json({
             ok:false,
             msg:error.message,
-            info:error
+            info:{error}
         })
     }
 }
@@ -62,7 +62,7 @@ exports.findById = async (req,res)=>{
         res.status(500).json({
             ok:false,
             msg:error.message,
-            info:error
+            info:{error}
         })
     }
 }
@@ -81,7 +81,7 @@ exports.create = async (req,res)=>{
         res.status(500).json({
             ok:false,
             msg:error.message,
-            info:error
+            info:{error}
         })
     }
 }
@@ -100,7 +100,7 @@ exports.update = async (req,res)=>{
         res.status(500).json({
             ok:false,
             msg:error.message,
-            info:error
+            info:{error}
         })
     }
 }
@@ -119,7 +119,7 @@ exports.delete = async (req,res)=>{
         res.status(500).json({
             ok:false,
             msg:error.message,
-            info:error
+            info:{error}
         })
     }
 }
@@ -138,7 +138,7 @@ exports.updateEstado = async(req,res)=>{
         res.status(500).json({
             ok:false,
             msg:error.message,
-            info:error
+            info:{error}
         })
     }
 }

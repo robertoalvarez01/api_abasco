@@ -21,64 +21,71 @@ class ImageneService{
     //     return;
     // }
 
-    async agregarImagen(idCasa,nombre,header){
-        try {
-            const subida = await this.model.create(idCasa,nombre,header);
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    agregarImagen(idCasa,nombre,header){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const subida = await this.model.create(idCasa,nombre,header);
+                reject(subida)
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 
-    async modificarImagen(nombre,id){
-        try {
-            const update = await this.model.update(nombre,id);
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    modificarImagen(nombre,id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const update = await this.model.update(nombre,id);
+                resolve(update);
+            } catch (error) {
+                reject(error);
+            }
+        })
+        
     }
 
-    async eliminarImagen(id){
-        try {
-            const eliminar = await this.model.delete(id);
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    eliminarImagen(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const eliminar = await this.model.delete(id);
+                resolve(eliminar)
+            } catch (error) {
+                reject(error)
+            }
+        })
     }
 
-    async getAll(){
-        try {
-            const imagenes = await this.model.getAll();
-            return imagenes;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    getAll(){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const imagenes = await this.model.getAll();
+                resolve(imagenes);
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 
-    async getByIdCasa(idCasa){
-        try {
-            const imagenes = await this.model.getByIdCasa(idCasa);
-            return imagenes;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    getByIdCasa(idCasa){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const imagenes = await this.model.getByIdCasa(idCasa);
+                resolve(imagenes);
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 
-    async getHeaders(id){
-        try {
-            const headers = await this.model.getHeadersByIdCasa(id);
-            return headers;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+    getHeaders(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const headers = await this.model.getHeadersByIdCasa(id);
+                resolve(headers);
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 
 }

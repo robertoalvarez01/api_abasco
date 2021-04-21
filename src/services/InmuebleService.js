@@ -6,38 +6,68 @@ class InmuebleService{
     }
 
     async getAll(admin,desde,cantidad,order){
-        return this.model.getAll(admin,desde,cantidad,order).then(res=>{
-            return res;
+        return new Promise(async(resolve, reject) => {
+          try {
+            const inmuebles = await this.model.getAll(admin,desde,cantidad,order);
+            resolve(inmuebles);    
+          } catch (error) {
+            reject(error);
+          }  
         })
     }
 
     async getOne(id){
-        return this.model.findById(id).then(res=>{
-            return res;
-        })
+        return new Promise(async(resolve, reject) => {
+            try {
+                const inmueble = await this.model.findById(id);
+                resolve(inmueble);     
+            } catch (error) {
+                reject(error);
+            }  
+        });
     }
 
     async create(body){
-        return this.model.create(body).then(res=>{
-            return res;
+        return new Promise(async(resolve, reject) => {
+            try {
+                const create = await this.model.create(body);
+                resolve(create);      
+            } catch (error) {
+                reject(error);
+            }  
         })
     };
 
     async update(body,id){
-        return this.model.update(body,id).then(res=>{
-            return res;
+        return new Promise(async(resolve, reject) => {
+            try {
+                const up = await this.model.update(body,id);
+                resolve(up);      
+            } catch (error) {
+                reject(error);
+            }  
         })
     };
 
     async updateEstado(id){
-        return this.model.updateEstado(id).then(res=>{
-            return res;
+        return new Promise(async(resolve, reject) => {
+            try {
+                const updated = await this.model.updateEstado(id);
+                resolve(updated)
+            } catch (error) {
+                reject(error);
+            }  
         })
     };
 
     async delete(id){
-        return this.model.delete(id).then(res=>{
-            return res;
+        return new Promise(async(resolve, reject) => {
+            try {
+                const del = await this.model.delete(id);
+                resolve(del);
+            } catch (error) {
+                reject(error);
+            }  
         })
     }
     

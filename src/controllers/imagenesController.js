@@ -22,7 +22,10 @@ exports.agregar = async (req,res)=>{
         console.log(error);
         res.status(500).json({
             ok:false,
-            msg:'Problemas al insertar la imagen'
+            msg:error.message,
+            info:{
+                error
+            }
         })
     }
 }
@@ -34,7 +37,7 @@ exports.agregarVarias = async (req,res)=>{
     const {files} = req;
     try {
         for (let index = 0; index < files.length; index++) {
-            await cs.upload(files[index]).then(link=>{
+            await cs.upload(files[index]).then(async link=>{
                 try {
                     const subida = await imagenesService.agregarImagen(idCasa,link,false);
                     console.log('subido');
@@ -57,7 +60,10 @@ exports.agregarVarias = async (req,res)=>{
         console.log(error);
         res.status(500).json({
             ok:false,
-            msg:'Problemas al insertar la imagen'
+            msg:error.message,
+            info:{
+                error
+            }
         })
     }
 }
@@ -88,8 +94,10 @@ exports.modificarImagen = async(req,res)=>{
             console.log(error);
             res.status(500).json({
                 ok:false,
-                msg:'Problemas al modificar la imagen',
-                info:error.message
+                msg:error.message,
+                info:{
+                    error
+                }
             })
         }
     }
@@ -102,7 +110,7 @@ exports.eliminarImagen = async(req,res)=>{
     const imagenesService = new ImagenesService();
     cs.delete(name).then(async()=>{
         try {
-            const del = await imagenesService.modificarImagen(link,id);
+            const del = await imagenesService.eliminarImagen(id);
             res.status(200).json({
                 ok:true,
                 msg:'Imagen eliminada',
@@ -112,7 +120,7 @@ exports.eliminarImagen = async(req,res)=>{
             res.status(500).json({
                 ok:false,
                 msg:error.message,
-                info:error
+                info:{error}
             })
         }
     }).catch(err=>{
@@ -120,7 +128,7 @@ exports.eliminarImagen = async(req,res)=>{
         res.status(500).json({
             ok:false,
             msg:err.message,
-            info:err
+            info:{err}
         })
     })
 }
@@ -138,7 +146,7 @@ exports.getAll = async(req,res)=>{
         res.status(500).json({
             ok:false,
             msg:error.message,
-            info:error
+            info:{error}
         }) 
     }
 }

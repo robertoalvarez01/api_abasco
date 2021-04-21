@@ -7,15 +7,16 @@ class InmuebleModel{
           query += "WHERE activo = 1 ";
         }
         if (order == "normal") {
-          query+=`ORDER BY inmuebles.id DESC LIMIT ${desde},?`;
+          query+=`ORDER BY inmuebles.id DESC `;
         } else if (order == "high") {
-          query+=`ORDER BY inmuebles.precio DESC LIMIT ${desde},?`;
+          query+=`ORDER BY inmuebles.precio DESC `;
         } else if (order == "low") {
-          query+=`ORDER BY inmuebles.precio ASC LIMIT ${desde},?`;
+          query+=`ORDER BY inmuebles.precio ASC `;
         }
+        query += `LIMIT ${desde},${cantidad}`;
         return new Promise((resolve,reject)=>{
-            db.query(query,[cantidad],(err,res,fields)=>{
-                if(err) throw err;
+            db.query(query,(err,res,fields)=>{
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -24,7 +25,7 @@ class InmuebleModel{
     findById(id){
         return new Promise((resolve,reject)=>{
             db.query("SELECT partidos.partido, localidades.localidad, barrios.barrio,tipo_operacion.operacion, categorias.categoria,servicios.*, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN barrios ON inmuebles.idBarrio = barrios.idBarrio LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id LEFT JOIN servicios ON inmuebles.id = servicios.idCasa LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa WHERE inmuebles.id = ?;",[id],(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -48,12 +49,12 @@ class InmuebleModel{
                 body.lat,
                 body.lon
             ],(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 db.query("SELECT id FROM inmuebles ORDER BY id DESC LIMIT 1",(error, filas, celdas) => {
                     if (!error) {
                       resolve(filas);
                     } else {
-                      throw error;
+                      reject(error);
                     }
                 })
             })
@@ -79,7 +80,7 @@ class InmuebleModel{
                 body.lon,
 	            id
             ],(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -88,7 +89,7 @@ class InmuebleModel{
     updateEstado(id){
         return new Promise((resolve,reject)=>{
             db.query(`UPDATE inmuebles SET activo = !activo WHERE id = ${id};`,(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -98,7 +99,7 @@ class InmuebleModel{
         return new Promise((resolve,reject)=>{
             db.query("DELETE FROM datos_tecnicos WHERE idCasa = ?;DELETE FROM servicios WHERE idCasa = ?;DELETE FROM imagenes WHERE idCasa = ?;DELETE FROM inmuebles WHERE id = ?;",
             [id, id, id, id],(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         }) 

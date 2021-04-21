@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const validatorParams = require('../middlewares/validatorParams');
-const verifyToken = require('../middlewares/auth');
+const {verifyToken,verifyAdminUser} = require('../middlewares/auth');
 const { check } = require('express-validator');
 const inmuebleController = require('../controllers/inmuebleController');
 
+
+router.get("/",inmuebleController.getAll);
+
+router.get("/:id",inmuebleController.findById);
 
 router.post("/",[
   check('idOperacion','Operacion es obligatorio'),
@@ -20,11 +24,7 @@ router.post("/",[
   check('moneda','Moneda es obligatorio'),
   check('lat','Latitud es obligatorio'),
   check('lon','Longitud es obligatorio')
-],validatorParams,verifyToken,inmuebleController.create);
-
-router.get("/",inmuebleController.getAll);
-
-router.get("/:id",inmuebleController.findById);
+],validatorParams,verifyToken,verifyAdminUser,inmuebleController.create);
 
 router.put("/:id",[
   check('idOperacion','Operacion es obligatorio'),
@@ -40,9 +40,10 @@ router.put("/:id",[
   check('moneda','Moneda es obligatorio'),
   check('lat','Latitud es obligatorio'),
   check('lon','Longitud es obligatorio')
-],validatorParams,verifyToken,inmuebleController.update);
+],validatorParams,verifyToken,verifyAdminUser,inmuebleController.update);
 
-router.delete("/:id",verifyToken,inmuebleController.delete);
+router.delete("/:id",verifyToken,verifyAdminUser,inmuebleController.delete);
   
+router.put('/habilitar_inmueble/:id',verifyToken,verifyAdminUser,inmuebleController.updateEstado);
 
-router.put('/habilitar_inmueble/:id',verifyToken,inmuebleController.updateEstado);
+module.exports = router;

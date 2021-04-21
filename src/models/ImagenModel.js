@@ -35,7 +35,7 @@ class ImagenModel {
 
     getAll(){
         return new Promise((resolve,reject)=>{
-            db.query("SELECT * FROM imagenes", [id], (err, rows, fields) => {
+            db.query("SELECT * FROM imagenes", (err, rows, fields) => {
                 if (!err) {
                   resolve(rows);
                 } else {
