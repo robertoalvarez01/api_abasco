@@ -4,7 +4,7 @@ class ContactoModel{
     get(){
         return new Promise((resolve,reject)=>{
             db.query(`SELECT * FROM contacto`,(err,res,fields)=>{
-                if(err) throw console.log(err);
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -18,7 +18,7 @@ class ContactoModel{
                                 instagram = '${data.instagram}',
                                 direccion = '${data.direccion}'
                     WHERE id = ${id}`,(err,res,fields)=>{
-                        if(err) throw console.log(err);
+                        if(err) reject(err);
                         resolve(res);
                     });
         })

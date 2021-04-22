@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const router =  express.Router();
 const barriosController = require('../controllers/barriosController');
 const validatorParams = require('../middlewares/validatorParams');
-const verifyToken = require('../middlewares/auth');
+const {verifyToken,verifyAdminUser} = require('../middlewares/auth');
 
 router.get('/',barriosController.getAll);
 
@@ -14,12 +14,12 @@ router.get('/filtrarPorLocalidad',barriosController.findByLocalidad);
 router.post("/",[
   check('barrio','El barrio es obligatorio'),
   check('idLocalidad','La localidad es obligatoria')
-],validatorParams,verifyToken,barriosController.create);
+],validatorParams,verifyToken,verifyAdminUser,barriosController.create);
 
 router.put("/:id",[
   check('barrio','El barrio es obligatorio'),
   check('idLocalidad','La localidad es obligatoria')
-],validatorParams,verifyToken,barriosController.update);
+],validatorParams,verifyToken,verifyAdminUser,barriosController.update);
 
-router.delete("/:id",verifyToken,barriosController.delete);
+router.delete("/:id",verifyToken,verifyAdminUser,barriosController.delete);
 

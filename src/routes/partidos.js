@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const validatorParams = require('../middlewares/validatorParams');
-const verifyToken = require('../middlewares/auth');
+const {verifyToken,verifyAdminUser} = require('../middlewares/auth');
 const { check } = require('express-validator');
 const partidosController = require('../controllers/partidosController');
 
@@ -11,10 +11,10 @@ router.get('/:id',partidosController.findById);
 
 router.post('/',[
     check('partido','Partido es obligatorio')
-],validatorParams,verifyToken,partidosController.create);
+],validatorParams,verifyToken,verifyAdminUser,partidosController.create);
 
 router.put('/:id',[
     check('partido','Partido es obligatorio')
-],validatorParams,verifyToken,partidosController.update);
+],validatorParams,verifyToken,verifyAdminUser,partidosController.update);
 
-router.delete('/:id',verifyToken,partidosController.delete);
+router.delete('/:id',verifyToken,verifyAdminUser,partidosController.delete);

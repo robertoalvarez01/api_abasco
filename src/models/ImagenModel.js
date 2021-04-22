@@ -5,7 +5,7 @@ class ImagenModel {
         return new Promise((resolve,reject)=>{
             db.query("INSERT INTO imagenes(idCasa, nombre, header) VALUES (?, ?, ?)",[id, nombre, header],(err, rows, fields) => {
                 if(err){
-                    throw err;
+                    reject(err);
                 }      
                 resolve(rows);
             });
@@ -15,7 +15,7 @@ class ImagenModel {
     update(nombre,id){
         return new Promise((resolve,reject)=>{
             db.query("UPDATE imagenes SET nombre =? WHERE id = ?",[nombre, id],(err, rows, fields) => {
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(rows);
             });
         })
@@ -27,7 +27,7 @@ class ImagenModel {
                 if (!err) {
                   resolve(rows);
                 } else {
-                    throw err;
+                    reject(err);
                 }
             });
         })
@@ -39,7 +39,7 @@ class ImagenModel {
                 if (!err) {
                   resolve(rows);
                 } else {
-                    throw err;
+                    reject(err);
                 }
             });
         }) 
@@ -51,7 +51,7 @@ class ImagenModel {
                 if (!err) {
                   resolve(rows);
                 } else {
-                    throw err;
+                    reject(err);
                 }
             });
         })
@@ -63,7 +63,7 @@ class ImagenModel {
                 if (!err) {
                   resolve(rows);
                 } else {
-                    throw err;
+                    reject(err);
                 }
             });
         })

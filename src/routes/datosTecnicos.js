@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const validatorParams = require('../middlewares/validatorParams');
-const verifyToken = require('../middlewares/auth');
+const {verifyToken,verifyAdminUser} = require('../middlewares/auth');
 const { check } = require('express-validator');
 const datoTecnicoController = require('../controllers/datoTecnicoController');
 
@@ -18,7 +18,7 @@ router.post("/",[
   check('pileta','pileta obligatorio'),
   check('u_medida','u_medida obligatorio'),
   check('idCasa','idCasa obligatorio'),
-],validatorParams,verifyToken,datoTecnicoController.create);
+],validatorParams,verifyToken,verifyAdminUser,datoTecnicoController.create);
 
 router.put("/",[
   check('dormitorios','Dormitorio obligatorio'),
@@ -30,7 +30,7 @@ router.put("/",[
   check('pileta','pileta obligatorio'),
   check('u_medida','u_medida obligatorio'),
   check('idCasa','idCasa obligatorio'),
-],validatorParams,verifyToken,datoTecnicoController.update);
+],validatorParams,verifyToken,verifyAdminUser,datoTecnicoController.update);
 
 router.delete("/:id",verifyToken,datoTecnicoController.delete);
 

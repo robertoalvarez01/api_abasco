@@ -4,7 +4,7 @@ class AuthModel{
     login(email){
         return new Promise((resolve,reject)=>{
             db.query(`SELECT * FROM usuarios WHERE email = '${email}'`,(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })

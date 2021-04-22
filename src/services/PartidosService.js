@@ -5,34 +5,59 @@ class PartidosService{
         this.partidoModel = new PartidoModel();
     }
 
-    async get(){
-        return this.partidoModel.get().then(res=>{
-            return res;
-        })
+    get(){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const partidos = await this.partidoModel.get();
+                resolve(partidos);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
-    async getOne(id){
-        return this.partidoModel.getOne(id).then(res=>{
-            return res;
-        })
+    getOne(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const partido = await this.partidoModel.getOne(id);
+                resolve(partido);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
-    async create(body){
-        return this.partidoModel.create(body).then(res=>{
-            return res;
-        })
+    create(body){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const newPartido = await this.partidoModel.create(body);
+                resolve(newPartido);
+            } catch (error) {
+                reject(error);
+            }
+        });
     };
 
-    async update(body,id){
-        return this.partidoModel.update(body,id).then(res=>{
-            return res;
-        })
+    update(body,id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const updatePartido = await this.partidoModel.update(body,id);
+                resolve(updatePartido);
+            } catch (error) {
+                reject(error);
+            }
+        });
     };
 
-    async delete(id){
-        return this.partidoModel.delete(id).then(res=>{
-            return res;
-        })
+    delete(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const deletePartido = await this.partidoModel.delete(id);
+                resolve(deletePartido);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
     
 }

@@ -5,34 +5,59 @@ class LocalidadService{
         this.model = new LocalidadModel();
     }
 
-    async getAll(){
-        return this.model.getAll().then(res=>{
-            return res;
-        })
+    getAll(){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const localidades = await this.model.getAll();
+                resolve(localidades);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
-    async getOne(id){
-        return this.model.findById(id).then(res=>{
-            return res;
-        })
+    getOne(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const localidad = await this.model.findById(id);
+                resolve(localidad);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
-    async create(body){
-        return this.model.create(body).then(res=>{
-            return res;
-        })
+    create(body){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const newLocalidad = await this.model.create(body);
+                resolve(newLocalidad);
+            } catch (error) {
+                reject(error);
+            }
+        });
     };
 
-    async update(body){
-        return this.model.update(body).then(res=>{
-            return res;
-        })
+    update(body){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const updateLocalidad = await this.model.update(body);
+                resolve(updateLocalidad); 
+            } catch (error) {
+                reject(error);
+            }
+        });
     };
 
-    async delete(id){
-        return this.model.delete(id).then(res=>{
-            return res;
-        })
+    delete(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const delLocalidad  = await this.model.delete(id);
+                resolve(delLocalidad);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
     
 }

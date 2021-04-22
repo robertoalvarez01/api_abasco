@@ -5,34 +5,59 @@ class OperacionesService{
         this.model = new OperacionModel();
     }
 
-    async getAll(){
-        return this.model.getAll().then(res=>{
-            return res;
-        })
+    getAll(){
+        return new Promise(async(resolve, reject) => {
+            try {
+               const operaciones = await this.model.getAll();
+               resolve(operaciones); 
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
-    async getOne(id){
-        return this.model.findById(id).then(res=>{
-            return res;
-        })
+    getOne(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const operacion = await this.model.findById(id);
+                resolve(operacion);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
-    async create(body){
-        return this.model.create(body).then(res=>{
-            return res;
-        })
+    create(body){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const newOperacion = await this.model.create(body);
+                resolve(newOperacion);
+            } catch (error) {
+                reject(error);
+            }
+        });
     };
 
-    async update(body,id){
-        return this.model.update(body,id).then(res=>{
-            return res;
-        })
+    update(body,id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const updateOperacion = await this.model.update(body,id);
+                resolve(updateOperacion);
+            } catch (error) {
+                reject(error);
+            }
+        });
     };
 
-    async delete(id){
-        return this.model.delete(id).then(res=>{
-            return res;
-        })
+    delete(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const delOperacion = await this.model.delete(id);
+                resolve(delOperacion);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
     
 }

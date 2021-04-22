@@ -4,7 +4,7 @@ class UsuarioModel{
     getAll(desde,limite){
         return new Promise((resolve,reject)=>{
             db.query(`SELECT idUsuario,email,nombre,foto,admin FROM usuarios LIMIT ${desde},${limite}`,(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -13,7 +13,7 @@ class UsuarioModel{
     findById(id){
         return new Promise((resolve,reject)=>{
             db.query(`SELECT * FROM usuarios WHERE idUsuario = '${id}'`,(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -51,7 +51,7 @@ class UsuarioModel{
     update(body,id){
         return new Promise((resolve,reject)=>{
             db.query(`UPDATE usuarios SET email = '${body.email}', pw = '${body.pw}', nombre = '${body.nombre}', foto = '${body.foto}' WHERE idUsuario = ${id}`,(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -60,7 +60,7 @@ class UsuarioModel{
     delete(id){
         return new Promise((resolve,reject)=>{
             db.query(`DELETE FROM usuarios WHERE idUsuario = ${id}`,(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         }) 

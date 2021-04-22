@@ -1,7 +1,7 @@
 const express = require('express');
 const contactoController = require('../controllers/contactoController');
 const validatorParams = require('../middlewares/validatorParams');
-const verifyToken = require('../middlewares/auth');
+const {verifyToken,verifyAdminUser} = require('../middlewares/auth');
 const { check } = require('express-validator');
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.put('/:id',[
     check('facebook','facebook obligatorio'),
     check('instagram','instagram es obligatorio'),
     check('direccion','direccion obligatoria')
-],validatorParams,verifyToken,contactoController.update);
+],validatorParams,verifyToken,verifyAdminUser,contactoController.update);
 
 router.post('/sendMail',[
     check('nombre','El nombre es obligatorio'),

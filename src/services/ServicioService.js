@@ -5,34 +5,59 @@ class ServicioService{
         this.model = new ServicioModel();
     }
 
-    async getAll(){
-        return this.model.getAll().then(res=>{
-            return res;
-        })
+    getAll(){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const servicios = await this.model.getAll();
+                resolve(servicios);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
-    async getOne(id){
-        return this.model.findById(id).then(res=>{
-            return res;
-        })
+    getOne(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const servicio = await this.model.findById(id);
+                resolve(servicio);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
-    async create(body){
-        return this.model.create(body).then(res=>{
-            return res;
-        })
+    create(body){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const newServicio = await this.model.create(body);
+                resolve(newServicio);
+            } catch (error) {
+                reject(error);
+            }
+        });
     };
 
-    async update(body){
-        return this.model.update(body).then(res=>{
-            return res;
-        })
+    update(body){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const updateServicio = await this.model.update(body);
+                resolve(updateServicio);
+            } catch (error) {
+                reject(error);
+            }
+        });
     };
 
-    async delete(id){
-        return this.model.delete(id).then(res=>{
-            return res;
-        })
+    delete(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const deleteServicio = await this.model.delete(id);
+                resolve(deleteServicio);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
     
 }

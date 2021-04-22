@@ -4,7 +4,7 @@ class ServicioModel{
     getAll(){
         return new Promise((resolve,reject)=>{
             db.query("SELECT * FROM servicios",(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -13,7 +13,7 @@ class ServicioModel{
     findById(id){
         return new Promise((resolve,reject)=>{
             db.query("SELECT * FROM servicios WHERE id = ?",[id],(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -23,7 +23,7 @@ class ServicioModel{
         return new Promise((resolve,reject)=>{
             db.query("INSERT INTO servicios(idCasa, luz, agua, calefaccion, telefono, gas, internet) VALUES (?, ?, ?, ?, ?, ?, ?)",
             [body.idCasa, body.luz, body.agua, body.calefaccion, body.telefono, body.gas, body.internet],(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -33,7 +33,7 @@ class ServicioModel{
         return new Promise((resolve,reject)=>{
             db.query("UPDATE servicios SET  luz =?, agua =?, calefaccion =?, telefono=?, gas=?, internet=? WHERE idCasa = ?",
             [body.luz, body.agua, body.calefaccion, body.telefono, body.gas, body.internet, body.idCasa],(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         })
@@ -42,7 +42,7 @@ class ServicioModel{
     delete(id){
         return new Promise((resolve,reject)=>{
             db.query("DELETE FROM servicios WHERE id=?", [id],(err,res,fields)=>{
-                if(err) throw err;
+                if(err) reject(err);
                 resolve(res);
             })
         }) 

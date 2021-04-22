@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const operacionesController = require('../controllers/operacionesController');
 const validatorParams = require('../middlewares/validatorParams');
-const verifyToken = require('../middlewares/auth');
+const {verifyToken,verifyAdminUser} = require('../middlewares/auth');
 const { check } = require('express-validator');
 
 
@@ -12,10 +12,10 @@ router.get("/:id",operacionesController.findById);
 
 router.post("/",[
   check('operacion','Operacion es obligatorio')
-],validatorParams,verifyToken,operacionesController.create);
+],validatorParams,verifyToken,verifyAdminUser,operacionesController.create);
 
 router.put("/:id",[
   check('operacion','Operacion es obligatorio')
-],validatorParams,verifyToken,operacionesController.update);
+],validatorParams,verifyToken,verifyAdminUser,operacionesController.update);
 
-router.delete("/:id",verifyToken,operacionesController.delete);
+router.delete("/:id",verifyToken,verifyAdminUser,operacionesController.delete);

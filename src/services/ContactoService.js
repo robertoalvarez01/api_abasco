@@ -5,18 +5,26 @@ class ContactoService{
         this.contactoModel = new ContactoModel();
     }
     
-    async get(){
-        const datos = this.contactoModel.get().then(res=>{
-            return res;
+    get(){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const datos = await this.contactoModel.get();
+                resolve(datos);
+            } catch (error) {
+                reject(error);
+            }
         });
-        return datos;
     }
 
-    async update(data,id){
-        const response = this.contactoModel.update(data,id).then(res=>{
-            return res;
+    update(data,id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const response = await this.contactoModel.update(data,id);
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
         });
-        return response;
     }
 }
 

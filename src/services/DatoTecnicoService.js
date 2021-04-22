@@ -5,34 +5,59 @@ class DatoTecnicoService{
         this.model = new DatoTecnicoModel();
     }
 
-    async getAll(){
-        return this.model.getAll().then(res=>{
-            return res;
-        })
+    getAll(){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const datoTecnico = await this.model.getAll();
+                resolve(datoTecnico);     
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
-    async getOne(id){
-        return this.model.findById(id).then(res=>{
-            return res;
-        })
+    getOne(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const datoTecnico = await this.model.findById(id);
+                resolve(datoTecnico);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
-    async create(body){
-        return this.model.create(body).then(res=>{
-            return res;
-        })
+    create(body){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const newDato = await this.model.create(body);
+                resolve(newDato);
+            } catch (error) {
+                reject(error);
+            }
+        });
     };
 
-    async update(body){
-        return this.model.update(body).then(res=>{
-            return res;
-        })
+    update(body){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const updateDate = await this.model.update(body);
+                resolve(updateDate);
+            } catch (error) {
+                reject(error);
+            }
+        });
     };
 
-    async delete(id){
-        return this.model.delete(id).then(res=>{
-            return res;
-        })
+    delete(id){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const delDato = await this.model.delete(id);
+                resolve(delDato);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
     
 }
