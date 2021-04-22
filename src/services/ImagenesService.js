@@ -25,7 +25,7 @@ class ImageneService{
         return new Promise(async(resolve, reject) => {
             try {
                 const subida = await this.model.create(idCasa,nombre,header);
-                reject(subida)
+                resolve(subida)
             } catch (error) {
                 reject(error);
             }

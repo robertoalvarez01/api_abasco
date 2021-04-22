@@ -6,8 +6,7 @@ exports.getAll = async(req,res)=>{
     const imagenesService = new ImageneService();
     try {
         const {query:{cantidad,order,desde}} = req;
-        const admin = req.usuario ? req.usuario.admin : 0;
-
+        const admin = req.header('x-auth-token') ? 1 : 0;
         const inmuebles = await inmuebleService.getAll(admin,desde,cantidad,order);
         if(inmuebles.length === 0){
             res.status(200).json({

@@ -40,7 +40,7 @@ exports.findById = async (req,res)=>{
 exports.findByLocalidad = async (req,res)=>{
     const barriosService = new BarriosService();
     try {
-        const {idLocalidad} = req.query;
+        const {idLocalidad} = req.params;
         const barrio = await barriosService.getByLocalidad(idLocalidad);
         res.status(200).json({
             ok:true,

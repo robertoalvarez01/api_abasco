@@ -8,7 +8,8 @@ const multer = require('../lib/multer');
 
 
 router.post("/",[
-  check('header','imagen no recibida')
+  check('header','imagen no recibida'),
+  check('idCasa','El id de la propiedad es obligatorio').isNumeric()
 ],multer.single('header'),verifyToken,verifyAdminUser,imagenesController.agregar);
 
 //carga de varias imagenes

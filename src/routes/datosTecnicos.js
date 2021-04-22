@@ -6,31 +6,32 @@ const { check } = require('express-validator');
 const datoTecnicoController = require('../controllers/datoTecnicoController');
 
 
-router.get("/",datoTecnicoController.getAll);
+router.get("/",verifyToken,verifyAdminUser,datoTecnicoController.getAll);
 
 router.post("/",[
-  check('dormitorios','Dormitorio obligatorio'),
-  check('s_terreno','s_terreno obligatorio'),
-  check('s_cubierta','s_cubierta obligatorio'),
-  check('s_semicubierta','s_semicubierta obligatorio'),
-  check('s_total','s_total obligatorio'),
-  check('cochera','cochera obligatorio'),
-  check('pileta','pileta obligatorio'),
-  check('u_medida','u_medida obligatorio'),
-  check('idCasa','idCasa obligatorio'),
+  check('dormitorios','Dormitorio obligatorio').isString(),
+  check('s_terreno','s_terreno obligatorio').isString(),
+  check('s_cubierta','s_cubierta obligatorio').isString(),
+  check('s_semicubierta','s_semicubierta obligatorio').isString(),
+  check('s_total','s_total obligatorio').isString(),
+  check('cochera','cochera obligatorio').isString(),
+  check('pileta','pileta obligatorio').isString(),
+  check('u_medida','u_medida obligatorio').isString(),
+  check('idCasa','idCasa obligatorio').isNumeric(),
 ],validatorParams,verifyToken,verifyAdminUser,datoTecnicoController.create);
 
 router.put("/",[
-  check('dormitorios','Dormitorio obligatorio'),
-  check('s_terreno','s_terreno obligatorio'),
-  check('s_cubierta','s_cubierta obligatorio'),
-  check('s_semicubierta','s_semicubierta obligatorio'),
-  check('s_total','s_total obligatorio'),
-  check('cochera','cochera obligatorio'),
-  check('pileta','pileta obligatorio'),
-  check('u_medida','u_medida obligatorio'),
-  check('idCasa','idCasa obligatorio'),
+  check('dormitorios','Dormitorio obligatorio').isString(),
+  check('s_terreno','s_terreno obligatorio').isString(),
+  check('s_cubierta','s_cubierta obligatorio').isString(),
+  check('s_semicubierta','s_semicubierta obligatorio').isString(),
+  check('s_total','s_total obligatorio').isString(),
+  check('cochera','cochera obligatorio').isString(),
+  check('pileta','pileta obligatorio').isString(),
+  check('u_medida','u_medida obligatorio').isString(),
+  check('idCasa','idCasa obligatorio').isNumeric()
 ],validatorParams,verifyToken,verifyAdminUser,datoTecnicoController.update);
 
 router.delete("/:id",verifyToken,datoTecnicoController.delete);
 
+module.exports = router;

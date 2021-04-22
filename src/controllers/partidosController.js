@@ -3,7 +3,7 @@ const PartidosService = require('../services/PartidosService');
 exports.getAll = async(req,res)=>{
     const partidosService = new PartidosService();
     try {
-        const partidos = await partidosService.getAll();
+        const partidos = await partidosService.get();
         res.status(200).json({
             ok:true,
             partidos

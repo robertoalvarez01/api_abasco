@@ -17,7 +17,7 @@ class CategoriaService{
     }
 
     getOne(id){
-        return new Promise((resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
             try {
                 const categoria = await this.model.findById(id);
                 resolve(categoria);
@@ -28,7 +28,7 @@ class CategoriaService{
     }
 
     search(name){
-        return new Promise((resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
             try {
                 const categoria = await this.model.findByNombre(name);
                 resolve(categoria);

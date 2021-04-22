@@ -7,14 +7,16 @@ const partidosController = require('../controllers/partidosController');
 
 router.get('/',partidosController.getAll);
 
-router.get('/:id',partidosController.findById);
+router.get('/:id',verifyToken,verifyAdminUser,partidosController.findById);
 
 router.post('/',[
-    check('partido','Partido es obligatorio')
+    check('partido','Partido es obligatorio').isString()
 ],validatorParams,verifyToken,verifyAdminUser,partidosController.create);
 
 router.put('/:id',[
-    check('partido','Partido es obligatorio')
+    check('partido','Partido es obligatorio').isString()
 ],validatorParams,verifyToken,verifyAdminUser,partidosController.update);
 
 router.delete('/:id',verifyToken,verifyAdminUser,partidosController.delete);
+
+module.exports = router;

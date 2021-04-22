@@ -12,11 +12,12 @@ const bucket = googleCloud.bucket(config.bucketGoogleCloud);
 
 class CloudStorage{
 
-    async upload(file){
+    upload(file){
         return new Promise((resolve,reject)=>{
             const blob = bucket.file(file.originalname);
             const blobStream = blob.createWriteStream();
             blobStream.on('error', (err) => {
+                console.log(err);
                 reject(err)
             });
             

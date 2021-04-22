@@ -41,10 +41,10 @@ exports.findByNombre = async (req,res)=>{
     const categoriaService = new CategoriaService();
     try {
         const {categoria} = req.params
-        const categoria = await categoriaService.search(categoria);
+        const cat = await categoriaService.search(categoria);
         res.status(200).json({
             ok:true,
-            categoria
+            categoria:cat
         })
     } catch (error) {
         console.log(error);

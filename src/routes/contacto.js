@@ -8,15 +8,17 @@ const router = express.Router();
 router.get('/',contactoController.getInfo);
 
 router.put('/:id',[
-    check('telefonoPrincipal','El telefono principal es obligatorio'),
-    check('whatsapp','whatsapp obligatorio'),
-    check('facebook','facebook obligatorio'),
-    check('instagram','instagram es obligatorio'),
-    check('direccion','direccion obligatoria')
+    check('telefonoPrincipal','El telefono principal es obligatorio').isString(),
+    check('whatsapp','whatsapp obligatorio').isString(),
+    check('facebook','facebook obligatorio').isString(),
+    check('instagram','instagram es obligatorio').isString(),
+    check('direccion','direccion obligatoria').isString()
 ],validatorParams,verifyToken,verifyAdminUser,contactoController.update);
 
 router.post('/sendMail',[
-    check('nombre','El nombre es obligatorio'),
-    check('email','El email es obligatorio'),
-    check('mensaje','El mensaje es obligatorio')
+    check('nombre','El nombre es obligatorio').isString(),
+    check('email','El email es obligatorio').isString(),
+    check('mensaje','El mensaje es obligatorio').isString()
 ],validatorParams,contactoController.sendEmail);
+
+module.exports = router;

@@ -8,7 +8,7 @@ const { check } = require('express-validator');
 
 router.get("/", operacionesController.getAll);
 
-router.get("/:id",operacionesController.findById);
+router.get("/:id",verifyToken,verifyAdminUser,operacionesController.findById);
 
 router.post("/",[
   check('operacion','Operacion es obligatorio')
@@ -19,3 +19,5 @@ router.put("/:id",[
 ],validatorParams,verifyToken,verifyAdminUser,operacionesController.update);
 
 router.delete("/:id",verifyToken,verifyAdminUser,operacionesController.delete);
+
+module.exports = router;

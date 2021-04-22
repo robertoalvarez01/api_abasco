@@ -6,18 +6,13 @@ exports.agregar = async (req,res)=>{
     const imagenesService = new ImagenesService();
     const { idCasa } = req.body;
     try {
-        cs.upload(req.file).then(async link => {
-            const imagenSubida = await imagenesService.agregarImagen(idCasa,link,true);
-            res.status(200).send({
-                ok:true,
-                msg:'Imagen subida'
-            })
-        }).catch((err) => {
-            res.status(500).send({
-                ok:false,
-                msg:err
-            })
-        });
+        const link = await cs.upload(req.file);
+        const imagenSubida = await imagenesService.agregarImagen(idCasa,link,true);
+        res.status(200).send({
+            ok:true,
+            msg:'Imagen subida',
+            info:imagenSubida
+        })
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -37,20 +32,9 @@ exports.agregarVarias = async (req,res)=>{
     const {files} = req;
     try {
         for (let index = 0; index < files.length; index++) {
-            await cs.upload(files[index]).then(async link=>{
-                try {
-                    const subida = await imagenesService.agregarImagen(idCasa,link,false);
-                    console.log('subido');
-                } catch (error) {
-                    console.log(error);
-                }
-            }).catch(err=>{
-                console.log(error);
-                return res.status(500).json({
-                    ok:false,
-                    msg:error.message
-                });
-            });   
+            const link = await cs.upload(files[index]);
+            const subida = await imagenesService.agregarImagen(idCasa,link,false);
+            console.log('subido');   
         }
         res.status(200).json({
             ok:true,

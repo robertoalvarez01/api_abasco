@@ -4,9 +4,7 @@ class ImagenModel {
     create(id,nombre,header){
         return new Promise((resolve,reject)=>{
             db.query("INSERT INTO imagenes(idCasa, nombre, header) VALUES (?, ?, ?)",[id, nombre, header],(err, rows, fields) => {
-                if(err){
-                    reject(err);
-                }      
+                if(err) reject(err);    
                 resolve(rows);
             });
         })
