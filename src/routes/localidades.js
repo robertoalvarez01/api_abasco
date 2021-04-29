@@ -14,10 +14,9 @@ router.post("/",[
   check('localidad','Localidad es obligatorio')
 ],validatorParams,verifyToken,verifyAdminUser,localidadesController.create);
 
-router.put("/",[
+router.put("/:id",[
   check('idPartido','Partido es obligatorio'),
-  check('localidad','Localidad es obligatorio'),
-  check('id','id es obligatorio')
+  check('localidad','Localidad es obligatorio')
 ],validatorParams,verifyToken,verifyAdminUser,localidadesController.update);
 
 router.delete("/:id",verifyToken,verifyAdminUser,localidadesController.delete);

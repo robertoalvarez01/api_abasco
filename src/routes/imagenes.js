@@ -17,10 +17,10 @@ router.post('/varios',[
   check('idCasa','El id de la casa es obligatorio')
 ],validatorParams,multer.array('imagenes'),verifyToken,verifyAdminUser,imagenesController.agregarVarias);
   
-router.put("/:id",verifyToken,verifyAdminUser,multer.single('header'),imagenesController.modificarImagen);
+router.put("/",verifyToken,verifyAdminUser,multer.single('header'),imagenesController.modificarImagen);
   
 router.delete("/:id",verifyToken,verifyAdminUser,imagenesController.eliminarImagen);
   
-router.get("/",verifyToken,verifyAdminUser,imagenesController.getAll);
+router.get("/:id",verifyToken,verifyAdminUser,imagenesController.getAll);
 
 module.exports = router;

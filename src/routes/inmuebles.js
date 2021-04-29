@@ -22,8 +22,8 @@ router.post("/",[
   check('estado','Estado es obligatorio').isString(),
   check('mostrarEstado','Mostrar estado es obligatorio').isString(),
   check('moneda','Moneda es obligatorio').isString(),
-  check('lat','Latitud es obligatorio').isString(),
-  check('lon','Longitud es obligatorio').isString()
+  check('lat','Latitud es obligatorio').isNumeric(),
+  check('lon','Longitud es obligatorio').isNumeric()
 ],validatorParams,verifyToken,verifyAdminUser,inmuebleController.create);
 
 router.put("/:id",[

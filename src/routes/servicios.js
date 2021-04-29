@@ -18,7 +18,7 @@ router.post("/",[
 ],validatorParams,verifyToken,verifyAdminUser,serviciosController.create);
   
 router.put("/",[
-  check('idCasa','IdCasa es obligatorio'),
+  check('idCasa','IdCasa es obligatorio').isNumeric(),
   check('luz','Luz es obligatorio').isString(),
   check('agua','Agua es obligatorio').isString(),
   check('calefaccion','calefaccion es obligatorio').isString(),

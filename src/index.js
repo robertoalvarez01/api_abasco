@@ -10,7 +10,7 @@ app.use(cors());
 
 app.use(express.json());
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 
 
 //importar rutas

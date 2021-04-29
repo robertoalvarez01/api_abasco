@@ -120,7 +120,31 @@ exports.eliminarImagen = async(req,res)=>{
 exports.getAll = async(req,res)=>{
     const imagenesService = new ImagenesService();
     try {
-        const imagenes = await imagenesService.getAll();
+        let imagenes;
+        if(req.params.id){
+            imagenes = await imagenesService.getByIdCasa(req.params.id);
+        }else{
+            imagenes = await imagenesService.getAll();
+        }
+        return res.status(200).json({
+            ok:true,
+            imagenes
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg:error.message,
+            info:{error}
+        }) 
+    }
+}
+
+exports.getByIdCasa = async(req,res)=>{
+    const imagenesService = new ImagenesService();
+    try {
+        const {id} = req.params;
+        const imagenes = await imagenesService.getByIdCasa(id);
         return res.status(200).json({
             ok:true,
             imagenes

@@ -38,10 +38,10 @@ class LocalidadService{
         });
     };
 
-    update(body){
+    update(body,id){
         return new Promise(async(resolve, reject) => {
             try {
-                const updateLocalidad = await this.model.update(body);
+                const updateLocalidad = await this.model.update(body,id);
                 resolve(updateLocalidad); 
             } catch (error) {
                 reject(error);

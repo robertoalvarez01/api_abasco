@@ -78,8 +78,8 @@ exports.create = async (req,res)=>{
 exports.update = async (req,res)=>{
     const localidadService = new LocalidadService();
     try {
-        const {body} = req;
-        const updateLocalidad = await localidadService.update(body);
+        const {body,params:{id}} = req;
+        const updateLocalidad = await localidadService.update(body,id);
         res.status(200).json({
             ok:true,
             info:updateLocalidad
