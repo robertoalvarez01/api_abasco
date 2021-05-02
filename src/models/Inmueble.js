@@ -1,10 +1,30 @@
 const db = require('../database/database');
 
 class InmuebleModel{
-    getAll(admin,desde,cantidad,order){
-        let query = "SELECT  partidos.partido, localidades.localidad, barrios.barrio ,tipo_operacion.operacion, categorias.categoria, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN barrios ON inmuebles.idBarrio = barrios.idBarrio LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id ";
+    getAll(admin,desde,cantidad,order,filtros){
+        let query = "SELECT  partidos.partido, localidades.localidad, barrios.barrio ,tipo_operacion.operacion, categorias.categoria, datos_tecnicos.*, inmuebles.* FROM inmuebles LEFT JOIN partidos ON inmuebles.idPartido = partidos.id LEFT JOIN localidades ON inmuebles.idLocalidad = localidades.id LEFT JOIN barrios ON inmuebles.idBarrio = barrios.idBarrio LEFT JOIN datos_tecnicos ON inmuebles.id = datos_tecnicos.idCasa LEFT JOIN categorias ON inmuebles.idCategoria = categorias.id LEFT JOIN tipo_operacion ON inmuebles.idOperacion = tipo_operacion.id WHERE 1=1 ";
         if(!admin){
-          query += "WHERE activo = 1 ";
+          query += "AND activo = 1 ";
+        }
+        if(filtros){
+            if(filtros.idLocalidad){
+                query += `AND inmuebles.idLocalidad = ${filtros.idLocalidad} `;
+            }
+            if(filtros.idBarrio){
+                query += `AND inmuebles.idBarrio = ${filtros.idBarrio} `;
+            }
+            if(filtros.idCategoria){
+                query += `AND idCategoria = ${filtros.idCategoria} `;
+            }
+            if(filtros.idOperacion){
+                query += `AND idOperacion = ${filtros.idOperacion} `;
+            }
+            if(filtros.moneda){
+                query += `AND inmuebles.moneda = '${filtros.moneda}' `;
+            }
+            if(filtros.minPrecio && filtros.maxPrecio){
+                query += `AND inmuebles.precio BETWEEN ${filtros.minPrecio} AND ${filtros.maxPrecio} `;
+            }
         }
         if (order == "normal") {
           query+=`ORDER BY inmuebles.id DESC `;

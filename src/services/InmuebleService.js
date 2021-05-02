@@ -5,10 +5,10 @@ class InmuebleService{
         this.model = new InmuebleModel();
     }
 
-    async getAll(admin,desde,cantidad,order){
+    async getAll(admin,desde,cantidad,order,filtros){
         return new Promise(async(resolve, reject) => {
           try {
-            const inmuebles = await this.model.getAll(admin,desde,cantidad,order);
+            const inmuebles = await this.model.getAll(admin,desde,cantidad,order,filtros);
             resolve(inmuebles);    
           } catch (error) {
             reject(error);

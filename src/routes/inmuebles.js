@@ -10,6 +10,8 @@ router.get("/",inmuebleController.getAll);
 
 router.get("/:id",inmuebleController.findById);
 
+router.get("/operaciones/filtrar",inmuebleController.filtrar);
+
 router.post("/",[
   check('idOperacion','Operacion es obligatorio').isString(),
   check('precio','precio es obligatorio').isString(),

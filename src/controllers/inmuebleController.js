@@ -7,7 +7,68 @@ exports.getAll = async(req,res)=>{
     try {
         const {query:{cantidad,order,desde}} = req;
         const admin = req.header('x-auth-token') ? 1 : 0;
-        const inmuebles = await inmuebleService.getAll(admin,desde,cantidad,order);
+        const inmuebles = await inmuebleService.getAll(admin,desde,cantidad,order,null);
+        if(inmuebles.length === 0){
+            res.status(200).json({
+                ok:true,
+                inmuebles:[]
+            });
+            return;
+        }
+
+        let casas = [];
+        inmuebles.forEach((inmueble) => {
+            casas.push(inmueble.id);
+        });
+
+        const imagenesHeaders = await imagenesService.getHeaders(casas);
+        
+        inmuebles.forEach(inmueble=>{
+            imagenesHeaders.forEach(header=>{
+                if(inmueble.id == header.idCasa){
+                    inmueble.header = header.nombre;
+                }
+            })
+        })
+        res.status(200).json({
+            ok:true,
+            inmuebles
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg:error.message,
+            info:{error}
+        })
+    }
+}
+
+exports.filtrar = async (req,res)=>{
+    const inmuebleService = new InmuebleService();
+    const imagenesService = new ImageneService();
+    try {
+        const idLocalidad = req.query.idLocalidad || null;
+        const idBarrio = req.query.idBarrio || null;
+        const idCategoria = req.query.idCategoria || null;
+        const idOperacion = req.query.idOperacion || null;
+        const precio = req.query.precio || null;
+        const moneda = req.query.moneda || null;
+        const minPrecio = req.query.minPrecio || null;
+        const maxPrecio = req.query.maxPrecio || null;
+        const filtros = {
+            idLocalidad,
+            idBarrio,
+            idCategoria,
+            idOperacion,
+            precio,
+            moneda,
+            minPrecio,
+            maxPrecio
+        }
+        const admin = req.header('x-auth-token') ? 1 : 0;
+        const {query:{cantidad,order,desde}} = req;
+        const inmuebles = await inmuebleService.getAll(admin,desde,cantidad,order,filtros);
         if(inmuebles.length === 0){
             res.status(200).json({
                 ok:true,
