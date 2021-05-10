@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/',[
     check('nombre','El nombre es obligatorio').isString(),
     check('email','El email es obligatorio').isString(),
-    chech('telefono','El telefono es obligatorio').isString(),
+    check('telefono','El telefono es obligatorio').isString(),
     check('localidad','La Localidad es obligatoria').isString(),
     check('barrio','El barrio es obligatorio').isString(),
     check('categoria','La categoria es obligatoria').isString(),
