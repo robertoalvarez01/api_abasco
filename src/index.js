@@ -28,6 +28,7 @@ app.use('/api/contacto',require('./routes/contacto'));
 app.use('/api/partidos',require('./routes/partidos'));
 app.use('/api/barrios',require('./routes/barrios'));
 app.use('/api/servicios',require('./routes/servicios'));
+app.use('/api/tasaciones',require('./routes/tasaciones'));
 
 
 app.listen(app.get('port'), () => {
