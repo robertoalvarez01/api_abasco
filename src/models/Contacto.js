@@ -17,7 +17,7 @@ class ContactoModel{
                                 facebook = '${data.facebook}',
                                 instagram = '${data.instagram}',
                                 direccion = '${data.direccion}',
-                                twitter = '${body.twitter}'
+                                twitter = '${data.twitter}'
                     WHERE id = ${id}`,(err,res,fields)=>{
                         if(err) reject(err);
                         resolve(res);
