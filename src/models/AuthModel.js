@@ -12,7 +12,7 @@ class AuthModel{
 
     get(id){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT email,nombre,foto FROM usuarios WHERE idUsuario = '${id}'`,(err,res,fields)=>{
+            db.query(`SELECT email,nombre,apellido,foto FROM usuarios WHERE idUsuario = '${id}'`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })

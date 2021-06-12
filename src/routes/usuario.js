@@ -25,6 +25,6 @@ router.put('/:id',[
     check('foto','La foto es obligatoria o null')
 ],validatorParams,verifyToken,verifyAdminUser,usuarioController.update);
 
-router.delete('/:id',verifyToken,verifyAdminUser,usuarioController.delete);
+//router.delete('/:id',verifyToken,verifyAdminUser,usuarioController.delete);
 
 module.exports = router;
