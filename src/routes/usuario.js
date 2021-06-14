@@ -18,12 +18,12 @@ router.post('/',[
     check('foto','La foto es obligatoria o null')
 ],validatorParams,usuarioController.create);
 
-router.put('/:id',[
-    check('email','Agrega un email valido').isEmail(),
-    check('pw','El password debe ser mínimo de 6 caracteres').isLength({min:6}),
-    check('nombre','El nombre es obligatorio').isString(),
-    check('foto','La foto es obligatoria o null')
-],validatorParams,verifyToken,verifyAdminUser,usuarioController.update);
+// router.put('/:id',[
+//     check('email','Agrega un email valido').isEmail(),
+//     check('pw','El password debe ser mínimo de 6 caracteres').isLength({min:6}),
+//     check('nombre','El nombre es obligatorio').isString(),
+//     check('foto','La foto es obligatoria o null')
+// ],validatorParams,verifyToken,verifyAdminUser,usuarioController.update);
 
 //router.delete('/:id',verifyToken,verifyAdminUser,usuarioController.delete);
 

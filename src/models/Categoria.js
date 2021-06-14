@@ -12,7 +12,7 @@ class CategoriaModel{
 
     findById(id){
         return new Promise((resolve,reject)=>{
-            db.query("SELECT * FROM categorias WHERE id LIKE ? ",
+            db.query("SELECT * FROM categorias WHERE idCategoria LIKE ? ",
             [id],(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
@@ -22,7 +22,7 @@ class CategoriaModel{
 
     findByNombre(categoria){
         return new Promise((resolve,reject)=>{
-            db.query("SELECT * FROM categorias WHERE categoria LIKE ? ",
+            db.query("SELECT * FROM categorias WHERE categoria = ? ",
             [categoria],(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
@@ -32,8 +32,7 @@ class CategoriaModel{
 
     create(body){
         return new Promise((resolve,reject)=>{
-            db.query("INSERT INTO categorias(categoria) VALUES (?)",
-            [body.categoria],(err,res,fields)=>{
+            db.query(`CALL SP_CATEGORIAS_INS_UPD(0,'${body.categoria}')`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -42,8 +41,7 @@ class CategoriaModel{
 
     update(body,id){
         return new Promise((resolve,reject)=>{
-            db.query("UPDATE categorias SET categoria = ? WHERE id = ?",
-            [body.categoria, id],(err,res,fields)=>{
+            db.query(`CALL SP_CATEGORIAS_INS_UPD(${id},'${body.categoria}')`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -52,7 +50,7 @@ class CategoriaModel{
 
     delete(id){
         return new Promise((resolve,reject)=>{
-            db.query("DELETE FROM categorias WHERE id=?", [id],(err,res,fields)=>{
+            db.query(`CALL SP_CATEGORIAS_DEL(${id})`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })

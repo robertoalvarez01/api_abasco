@@ -1,12 +1,12 @@
-const ServicioService = require('../services/ServicioService');
+const CiudadService = require('../services/CiudadesService');
 
 exports.getAll = async(req,res)=>{
-    const servicioService = new ServicioService();
+    const ciudadService = new CiudadService();
     try {
-        const servicios = await servicioService.getAll();
+        const localidades = await ciudadService.getAll();
         res.status(200).json({
             ok:true,
-            servicios
+            localidades
         })
     } catch (error) {
         console.log(error);
@@ -19,13 +19,32 @@ exports.getAll = async(req,res)=>{
 }
 
 exports.findById = async (req,res)=>{
-    const servicioService = new ServicioService();
+    const ciudadService = new CiudadService();
     try {
         const {id} = req.params;
-        const servicio = await servicioService.getOne(id);
+        const localidad = await ciudadService.getOne(id);
         res.status(200).json({
             ok:true,
-            servicio
+            localidad
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg:error.message,
+            info:error
+        })
+    }
+}
+
+exports.findByLocalidad = async (req,res)=>{
+    const ciudadService = new CiudadService();
+    try {
+        const {idLocalidad} = req.query;
+        const barrio = await ciudadService.getByLocalidad(idLocalidad);
+        res.status(200).json({
+            ok:true,
+            barrio
         })
     } catch (error) {
         console.log(error);
@@ -38,13 +57,13 @@ exports.findById = async (req,res)=>{
 }
 
 exports.create = async (req,res)=>{
-    const servicioService = new ServicioService();
+    const ciudadService = new CiudadService();
     try {
         const {body} = req;
-        const createServicio = await servicioService.create(body);
+        const createLocalidad = await ciudadService.create(body);
         res.status(200).json({
             ok:true,
-            info:createServicio
+            info:createLocalidad
         })
     } catch (error) {
         console.log(error);
@@ -57,13 +76,13 @@ exports.create = async (req,res)=>{
 }
 
 exports.update = async (req,res)=>{
-    const servicioService = new ServicioService();
+    const ciudadService = new CiudadService();
     try {
-        const {body} = req;
-        const updateServicio = await servicioService.update(body);
+        const {body,params:{id}} = req;
+        const updateLocalidad = await ciudadService.update(body,id);
         res.status(200).json({
             ok:true,
-            info:updateServicio
+            info:updateLocalidad
         })
     } catch (error) {
         console.log(error);
@@ -76,13 +95,13 @@ exports.update = async (req,res)=>{
 }
 
 exports.delete = async (req,res)=>{
-    const servicioService = new ServicioService();
+    const ciudadService = new CiudadService();
     try {
         const {params:{id}} = req;
-        const deleteServicio = await servicioService.delete(id);
+        const deleteLocalidad = await ciudadService.delete(id);
         res.status(200).json({
             ok:true,
-            info:deleteServicio
+            info:deleteLocalidad
         })
     } catch (error) {
         console.log(error);

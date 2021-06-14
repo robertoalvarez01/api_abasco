@@ -45,7 +45,7 @@ class UsuarioModel{
 
     update(body,id){
         return new Promise((resolve,reject)=>{
-            db.query(`CALL SP_USUARIO_INS_UPD(${id},'${body.email}','${body.pw}','${body.nombre}','${body.apellido}','${body.foto}',0)`,(err,res,fields)=>{
+            db.query(`CALL SP_USUARIO_INS_UPD(${id},null,null,'${body.nombre}','${body.apellido}','${body.foto}',0)`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })

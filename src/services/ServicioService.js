@@ -27,10 +27,10 @@ class ServicioService{
         });
     }
 
-    create(body){
+    create(body,idInmueble){
         return new Promise(async(resolve, reject) => {
             try {
-                const newServicio = await this.model.create(body);
+                const newServicio = await this.model.create(body,idInmueble);
                 resolve(newServicio);
             } catch (error) {
                 reject(error);
@@ -38,10 +38,10 @@ class ServicioService{
         });
     };
 
-    update(body){
+    update(body,idInmueble){
         return new Promise(async(resolve, reject) => {
             try {
-                const updateServicio = await this.model.update(body);
+                const updateServicio = await this.model.update(body,idInmueble);
                 resolve(updateServicio);
             } catch (error) {
                 reject(error);

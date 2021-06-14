@@ -1,10 +1,10 @@
+const { config } = require('../../config');
 const db = require('../database/database');
 
 class BarrioModel{
     getAll(){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT idBarrio, barrio, localidad, bar.idLocalidad FROM barrios as bar, localidades as loc
-            WHERE bar.idLocalidad = loc.id ORDER BY bar.idBarrio DESC`,(err,res,fields)=>{
+            db.query(`SELECT ID_BARRIO, ID_CIUDAD, CIUDAD, BARRIO FROM ${config.dbName}.vw_rs_barrios ORDER BY ID_BARRIO DESC`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -13,18 +13,16 @@ class BarrioModel{
 
     findById(id){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT idBarrio, barrio, localidad, bar.idLocalidad FROM barrios as bar, localidades as loc
-            WHERE bar.idLocalidad = loc.id AND bar.idBarrio = ${id}`,(err,res,fields)=>{
+            db.query(`SELECT ID_BARRIO, ID_CIUDAD, CIUDAD, BARRIO FROM ${config.dbName}.vw_rs_barrios WHERE ID_BARRIO = ${id}`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
         })
     }
 
-    findByLocalidad(idLocalidad){
+    findByCiudad(idCiudad){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT idBarrio, barrio, localidad FROM barrios as bar, localidades as loc
-            WHERE bar.idLocalidad = loc.id AND bar.idLocalidad = ? ORDER BY bar.idBarrio DESC`,[idLocalidad],(err,res,fields)=>{
+            db.query(`SELECT ID_BARRIO, ID_CIUDAD, CIUDAD, BARRIO FROM ${config.dbName}.vw_rs_barrios WHERE ID_CIUDAD = ${idCiudad} ORDER BY ID_BARRIO DESC`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -33,8 +31,7 @@ class BarrioModel{
 
     create(body){
         return new Promise((resolve,reject)=>{
-            db.query("INSERT INTO barrios(barrio,idLocalidad) VALUES (?,?)",
-            [body.barrio,body.idLocalidad],(err,res,fields)=>{
+            db.query(`CALL SP_BARRIOS_INS_UPD(0,${body.idCiudad},'${body.barrio}')`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -43,8 +40,7 @@ class BarrioModel{
 
     update(body,id){
         return new Promise((resolve,reject)=>{
-            db.query("UPDATE barrios SET barrio = ?, idLocalidad = ? WHERE idBarrio = ?",
-            [body.barrio,body.idLocalidad,id],(err,res,fields)=>{
+            db.query(`CALL SP_BARRIOS_INS_UPD(${id},${body.idCiudad},'${body.barrio}')`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -53,7 +49,7 @@ class BarrioModel{
 
     delete(id){
         return new Promise((resolve,reject)=>{
-            db.query("DELETE FROM barrios WHERE idBarrio=?", [id],(err,res,fields)=>{
+            db.query(`CALL SP_BARRIOS_DEL(${id})`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })

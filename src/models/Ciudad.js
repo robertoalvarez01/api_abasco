@@ -1,10 +1,9 @@
 const db = require('../database/database');
 
-class LocalidadModel{
+class CiudadModel{
     getAll(){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT localidad.id,localidad.idPartido,partido,localidad FROM localidades AS localidad, partidos as partido 
-            where localidad.idPartido = partido.id`,(err,res,fields)=>{
+            db.query(`SELECT * FROM rs_ciudades`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -13,7 +12,7 @@ class LocalidadModel{
 
     findById(id){
         return new Promise((resolve,reject)=>{
-            db.query("SELECT localidad.id,localidad.idPartido,partido,localidad FROM localidades AS localidad, partidos as partido WHERE localidad.idPartido = partido.id AND localidad.id LIKE ? ",[id],(err,res,fields)=>{
+            db.query(`SELECT * FROM rs_ciudades WHERE ID_CIUDAD = ?`,[id],(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -22,7 +21,7 @@ class LocalidadModel{
     
     create(body){
         return new Promise((resolve,reject)=>{
-            db.query("INSERT INTO localidades(idPartido, localidad) VALUES (? , ?)",[body.idPartido, body.localidad],(err,res,fields)=>{
+            db.query(`CALL SP_CIUDADES_INS_UPD(0,${body.idPartido},'${body.ciudad}')`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -31,8 +30,7 @@ class LocalidadModel{
 
     update(body,id){
         return new Promise((resolve,reject)=>{
-            db.query("UPDATE localidades SET idPartido = ? , localidad = ? WHERE id = ?",
-            [body.idPartido, body.localidad,id],(err,res,fields)=>{
+            db.query(`CALL SP_CIUDADES_INS_UPD(${id},${body.idPartido},'${body.ciudad}')`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -41,7 +39,7 @@ class LocalidadModel{
 
     delete(id){
         return new Promise((resolve,reject)=>{
-            db.query("DELETE FROM localidades WHERE id=?", [id],(err,res,fields)=>{
+            db.query(`CALL SP_CIUDADES_DEL(?)`, [id],(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -50,4 +48,4 @@ class LocalidadModel{
 
 }
 
-module.exports = LocalidadModel;
+module.exports = CiudadModel;

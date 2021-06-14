@@ -1,35 +1,14 @@
 const InmuebleService = require('../services/InmuebleService');
 const ImageneService = require('../services/ImagenesService');
+const DatoTecnicoService = require('../services/DatoTecnicoService');
+const ServiciosService = require('../services/ServicioService');
 
 exports.getAll = async(req,res)=>{
     const inmuebleService = new InmuebleService();
-    const imagenesService = new ImageneService();
     try {
         const {query:{cantidad,order,desde}} = req;
         const admin = req.header('x-auth-token') ? 1 : 0;
         const inmuebles = await inmuebleService.getAll(admin,desde,cantidad,order,null);
-        if(inmuebles.length === 0){
-            res.status(200).json({
-                ok:true,
-                inmuebles:[]
-            });
-            return;
-        }
-
-        let casas = [];
-        inmuebles.forEach((inmueble) => {
-            casas.push(inmueble.id);
-        });
-
-        const imagenesHeaders = await imagenesService.getHeaders(casas);
-        
-        inmuebles.forEach(inmueble=>{
-            imagenesHeaders.forEach(header=>{
-                if(inmueble.id == header.idCasa){
-                    inmueble.header = header.nombre;
-                }
-            })
-        })
         res.status(200).json({
             ok:true,
             inmuebles
@@ -46,9 +25,8 @@ exports.getAll = async(req,res)=>{
 
 exports.filtrar = async (req,res)=>{
     const inmuebleService = new InmuebleService();
-    const imagenesService = new ImageneService();
     try {
-        const idLocalidad = req.query.idLocalidad || null;
+        const idCiudad = req.query.idCiudad || null;
         const idBarrio = req.query.idBarrio || null;
         const idCategoria = req.query.idCategoria || null;
         const idOperacion = req.query.idOperacion || null;
@@ -57,7 +35,7 @@ exports.filtrar = async (req,res)=>{
         const minPrecio = req.query.minPrecio || null;
         const maxPrecio = req.query.maxPrecio || null;
         const filtros = {
-            idLocalidad,
+            idCiudad,
             idBarrio,
             idCategoria,
             idOperacion,
@@ -76,22 +54,7 @@ exports.filtrar = async (req,res)=>{
             });
             return;
         }
-
-        let casas = [];
-        inmuebles.forEach((inmueble) => {
-            casas.push(inmueble.id);
-        });
-
-        const imagenesHeaders = await imagenesService.getHeaders(casas);
-        
-        inmuebles.forEach(inmueble=>{
-            imagenesHeaders.forEach(header=>{
-                if(inmueble.id == header.idCasa){
-                    inmueble.header = header.nombre;
-                }
-            })
-        })
-        res.status(200).json({
+        return res.status(200).json({
             ok:true,
             inmuebles
         })
@@ -129,12 +92,23 @@ exports.findById = async (req,res)=>{
 
 exports.create = async (req,res)=>{
     const inmuebleService = new InmuebleService();
+    const dtService = new DatoTecnicoService();
+    const serviciosService = new ServiciosService();
     try {
-        const {body} = req;
-        const createBarrio = await inmuebleService.create(body);
-        res.status(200).json({
-            ok:true,
-            info:createBarrio
+        const {general,servicios,tecnicos} = req.body;
+        const createBarrio = await inmuebleService.create(general);
+        const {ID_INMUEBLE} = createBarrio[0];
+        if(ID_INMUEBLE){
+            await dtService.create(tecnicos,ID_INMUEBLE);
+            await serviciosService.create(servicios,ID_INMUEBLE);
+            return res.status(200).json({
+                ok:true,
+                info:'Propiedad agregada correctamente'
+            })
+        }
+        return res.status(400).json({
+            ok:false,
+            info:'Problemas al cargar la propiedad'
         })
     } catch (error) {
         console.log(error);
@@ -148,15 +122,18 @@ exports.create = async (req,res)=>{
 
 exports.update = async (req,res)=>{
     const inmuebleService = new InmuebleService();
+    const dtService = new DatoTecnicoService();
+    const serviciosService = new ServiciosService();
     try {
-        const {body,params:{id}} = req;
-        const updateInmueble = await inmuebleService.update(body,id);
+        const {body:{general,servicios,tecnicos},params:{id}} = req;
+        await inmuebleService.update(general,id);
+        await dtService.update(tecnicos,id);
+        await serviciosService.update(servicios,id);
         res.status(200).json({
             ok:true,
-            info:updateInmueble
+            info:'Propiedad modificada correctamente'
         })
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             ok:false,
             msg:error.message,

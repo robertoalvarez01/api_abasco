@@ -13,7 +13,7 @@ class PartidoModel{
 
     getOne(id){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT * FROM partidos WHERE id = ${id}`,(err,res,fields)=>{
+            db.query(`SELECT * FROM partidos WHERE idPartido = ${id}`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -22,7 +22,7 @@ class PartidoModel{
 
     create(body){
         return new Promise((resolve,reject)=>{
-            db.query(`INSERT INTO partidos (partido) VALUES ('${body.partido}')`,(err,res,fields)=>{
+            db.query(`CALL SP_PARTIDOS_INS_UPD(0,'${body.partido}')`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -31,7 +31,7 @@ class PartidoModel{
 
     update(body,id){
         return new Promise((resolve,reject)=>{
-            db.query(`UPDATE partidos set partido = '${body.partido}' WHERE id = ${id}`,(err,res,fields)=>{
+            db.query(`CALL SP_PARTIDOS_INS_UPD(${id},'${body.partido}')`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -40,7 +40,7 @@ class PartidoModel{
 
     delete(id){
         return new Promise((resolve,reject)=>{
-            db.query(`DELETE FROM partidos WHERE id = ${id}`,(err,res,fields)=>{
+            db.query(`CALL SP_PARTIDOS_DEL(${id})`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })

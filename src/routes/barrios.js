@@ -9,16 +9,16 @@ router.get('/',barriosController.getAll);
 
 router.get('/:id',verifyToken,verifyAdminUser,barriosController.findById);
 
-router.get('/filtrarPorLocalidad/:idLocalidad',barriosController.findByLocalidad);
+router.get('/filtrarPorCiudad/:idCiudad',barriosController.findByCiudad);
 
 router.post("/",[
   check('barrio','El barrio es obligatorio').isString(),
-  check('idLocalidad','La localidad es obligatoria').isString()
+  check('idCiudad','El idCiudad es obligatorio').isString()
 ],validatorParams,verifyToken,verifyAdminUser,barriosController.create);
 
 router.put("/:id",[
   check('barrio','El barrio es obligatorio').isString(),
-  check('idLocalidad','La localidad es obligatoria').isString()
+  check('idCiudad','El idCiudad es obligatorio').isString()
 ],validatorParams,verifyToken,verifyAdminUser,barriosController.update);
 
 router.delete("/:id",verifyToken,verifyAdminUser,barriosController.delete);

@@ -16,18 +16,14 @@ app.use(express.json());
 app.use('/api/usuarios',require('./routes/usuario'));
 app.use('/api/auth',require('./routes/auth'));
 // app.use('/api/nosotros',require('./routes/quienesSomos'));
-// app.use('/api/imagenes',require('./routes/imagenes'));
-// app.use('/api/datos-tecnicos',require('./routes/datosTecnicos'));
-// app.use('/api/inmuebles',require('./routes/inmuebles'));
-// app.use('/api/localidades',require('./routes/localidades'));
-// app.use('/api/operaciones',require('./routes/operaciones'));
-// app.use('/api/categorias',require('./routes/categorias'));
-// //app.use('/api/filtros',require('./routes/filtros'));
-// app.use('/api/contacto',require('./routes/contacto'));
-// app.use('/api/partidos',require('./routes/partidos'));
-// app.use('/api/barrios',require('./routes/barrios'));
-// app.use('/api/servicios',require('./routes/servicios'));
-// app.use('/api/tasaciones',require('./routes/tasaciones'));
+//app.use('/api/imagenes',require('./routes/imagenes'));
+app.use('/api/inmuebles',require('./routes/inmuebles'));
+app.use('/api/ciudades',require('./routes/ciudades'));
+app.use('/api/operaciones',require('./routes/operaciones'));
+app.use('/api/categorias',require('./routes/categorias'));
+app.use('/api/partidos',require('./routes/partidos'));
+app.use('/api/barrios',require('./routes/barrios'));
+app.use('/api/contacto',require('./routes/contacto'));
 
 
 app.listen(config.port, () => {
