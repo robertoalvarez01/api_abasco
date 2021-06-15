@@ -3,10 +3,10 @@ const CiudadService = require('../services/CiudadesService');
 exports.getAll = async(req,res)=>{
     const ciudadService = new CiudadService();
     try {
-        const localidades = await ciudadService.getAll();
+        const ciudades = await ciudadService.getAll();
         res.status(200).json({
             ok:true,
-            localidades
+            ciudades
         })
     } catch (error) {
         console.log(error);
@@ -22,29 +22,10 @@ exports.findById = async (req,res)=>{
     const ciudadService = new CiudadService();
     try {
         const {id} = req.params;
-        const localidad = await ciudadService.getOne(id);
+        const ciudad = await ciudadService.getOne(id);
         res.status(200).json({
             ok:true,
-            localidad
-        })
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:error.message,
-            info:error
-        })
-    }
-}
-
-exports.findByLocalidad = async (req,res)=>{
-    const ciudadService = new CiudadService();
-    try {
-        const {idLocalidad} = req.query;
-        const barrio = await ciudadService.getByLocalidad(idLocalidad);
-        res.status(200).json({
-            ok:true,
-            barrio
+            ciudad
         })
     } catch (error) {
         console.log(error);
@@ -60,10 +41,10 @@ exports.create = async (req,res)=>{
     const ciudadService = new CiudadService();
     try {
         const {body} = req;
-        const createLocalidad = await ciudadService.create(body);
+        const createCiudad = await ciudadService.create(body);
         res.status(200).json({
             ok:true,
-            info:createLocalidad
+            info:createCiudad
         })
     } catch (error) {
         console.log(error);
@@ -79,10 +60,10 @@ exports.update = async (req,res)=>{
     const ciudadService = new CiudadService();
     try {
         const {body,params:{id}} = req;
-        const updateLocalidad = await ciudadService.update(body,id);
+        const updateCiudad = await ciudadService.update(body,id);
         res.status(200).json({
             ok:true,
-            info:updateLocalidad
+            info:updateCiudad
         })
     } catch (error) {
         console.log(error);
@@ -98,10 +79,10 @@ exports.delete = async (req,res)=>{
     const ciudadService = new CiudadService();
     try {
         const {params:{id}} = req;
-        const deleteLocalidad = await ciudadService.delete(id);
+        const deleteCiudad = await ciudadService.delete(id);
         res.status(200).json({
             ok:true,
-            info:deleteLocalidad
+            info:deleteCiudad
         })
     } catch (error) {
         console.log(error);
