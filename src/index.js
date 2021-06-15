@@ -15,7 +15,6 @@ app.use(express.json());
 //importar rutas
 app.use('/api/usuarios',require('./routes/usuario'));
 app.use('/api/auth',require('./routes/auth'));
-// app.use('/api/nosotros',require('./routes/quienesSomos'));
 app.use('/api/imagenes',require('./routes/imagenes'));
 app.use('/api/inmuebles',require('./routes/inmuebles'));
 app.use('/api/ciudades',require('./routes/ciudades'));
