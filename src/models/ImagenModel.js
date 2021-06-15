@@ -1,9 +1,9 @@
 const db = require("../database/database");
 
 class ImagenModel {
-    create(id,nombre,header){
+    create(idInmueble,nombre,header){
         return new Promise((resolve,reject)=>{
-            db.query(`CALL SP_IMAGENES_INS_UPD(0,${id}, '${nombre}', ${header})`,(err, rows, fields) => {
+            db.query(`CALL SP_IMAGENES_INS_UPD(0,${idInmueble}, '${nombre}', ${header})`,(err, rows, fields) => {
                 if(err) reject(err);    
                 resolve(rows);
             });
@@ -12,7 +12,7 @@ class ImagenModel {
 
     update(nombre,id){
         return new Promise((resolve,reject)=>{
-            db.query(`CALL SP_IMAGENES_INS_UPD(${id},null, '${nombre}', ${header})`,(err, rows, fields) => {
+            db.query(`CALL SP_IMAGENES_INS_UPD(${id},null, '${nombre}', null)`,(err, rows, fields) => {
                 if(err) reject(err);
                 resolve(rows);
             });
@@ -43,9 +43,9 @@ class ImagenModel {
         }) 
     }
 
-    getByIdCasa(id){
+    getByIdInmueble(idInmueble){
         return new Promise((resolve,reject)=>{
-            db.query("SELECT * FROM imagenes WHERE idInmueble = ?", [id], (err, rows, fields) => {
+            db.query("SELECT * FROM imagenes WHERE idInmueble = ?", [idInmueble], (err, rows, fields) => {
                 if (!err) {
                   resolve(rows);
                 } else {
@@ -55,17 +55,6 @@ class ImagenModel {
         })
     }
 
-    getHeadersByIdCasa(id){
-        return new Promise((resolve,reject)=>{
-            db.query("SELECT * FROM imagenes WHERE idInmueble IN (?) AND header = true", [id], (err, rows, fields) => {
-                if (!err) {
-                  resolve(rows);
-                } else {
-                    reject(err);
-                }
-            });
-        })
-    }
 }
 
 module.exports = ImagenModel;

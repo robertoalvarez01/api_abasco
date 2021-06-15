@@ -21,10 +21,10 @@ class ImageneService{
     //     return;
     // }
 
-    agregarImagen(idCasa,nombre,header){
+    agregarImagen(idInmueble,nombre,header){
         return new Promise(async(resolve, reject) => {
             try {
-                const subida = await this.model.create(idCasa,nombre,header);
+                const subida = await this.model.create(idInmueble,nombre,header);
                 resolve(subida)
             } catch (error) {
                 reject(error);
@@ -66,22 +66,11 @@ class ImageneService{
         })
     }
 
-    getByIdCasa(idCasa){
+    getByIdCasa(idInmueble){
         return new Promise(async(resolve, reject) => {
             try {
-                const imagenes = await this.model.getByIdCasa(idCasa);
+                const imagenes = await this.model.getByIdInmueble(idInmueble);
                 resolve(imagenes);
-            } catch (error) {
-                reject(error);
-            }
-        })
-    }
-
-    getHeaders(id){
-        return new Promise(async(resolve, reject) => {
-            try {
-                const headers = await this.model.getHeadersByIdCasa(id);
-                resolve(headers);
             } catch (error) {
                 reject(error);
             }

@@ -9,12 +9,12 @@ const multer = require('../lib/multer');
 
 router.post("/",[
   check('header','imagen no recibida'),
-  check('idCasa','El id de la propiedad es obligatorio').isNumeric()
+  check('idInmueble','El id de la propiedad es obligatorio').isNumeric()
 ],multer.single('header'),verifyToken,verifyAdminUser,imagenesController.agregar);
 
 //carga de varias imagenes
 router.post('/varios',[
-  check('idCasa','El id de la casa es obligatorio')
+  check('idInmueble','El id de la casa es obligatorio')
 ],validatorParams,multer.array('imagenes'),verifyToken,verifyAdminUser,imagenesController.agregarVarias);
   
 router.put("/",verifyToken,verifyAdminUser,multer.single('header'),imagenesController.modificarImagen);

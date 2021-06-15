@@ -6,8 +6,8 @@ const config = {
     dbPass: process.env.DB_PASS,
     dbHost: process.env.DB_HOST,
     dbName: process.env.DB_NAME,
-    //idProjectGoogleCloud: process.env.PROJECT_ID_GCLOUD,
-    //bucketGoogleCloud: process.env.BUCKET_GCLOUD,
+    idProjectGoogleCloud: process.env.PROJECT_ID_GCLOUD,
+    bucketGoogleCloud: process.env.BUCKET_GCLOUD,
 
 
     //EMAIL ACCOUNT
