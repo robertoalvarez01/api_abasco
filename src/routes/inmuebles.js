@@ -8,7 +8,7 @@ const inmuebleController = require('../controllers/inmuebleController');
 
 router.get("/",inmuebleController.getAll);
 
-//router.get("/:id",inmuebleController.findById);
+router.get("/:id",inmuebleController.findById);
 
 router.get("/filtrar",inmuebleController.filtrar);
 
