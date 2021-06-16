@@ -103,7 +103,8 @@ exports.create = async (req,res)=>{
             await serviciosService.create(servicios,ID_INMUEBLE);
             return res.status(200).json({
                 ok:true,
-                info:'Propiedad agregada correctamente'
+                info:'Propiedad agregada correctamente',
+                idInmueble:ID_INMUEBLE
             })
         }
         return res.status(400).json({
