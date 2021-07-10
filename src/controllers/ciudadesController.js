@@ -1,12 +1,31 @@
-const DatoTecnicoService = require('../services/DatoTecnicoService');
+const CiudadService = require('../services/CiudadesService');
 
 exports.getAll = async(req,res)=>{
-    const datoTecnicoService = new DatoTecnicoService();
+    const ciudadService = new CiudadService();
     try {
-        const datos = await datoTecnicoService.getAll();
+        const ciudades = await ciudadService.getAll();
         res.status(200).json({
             ok:true,
-            datos
+            ciudades
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg:error.message,
+            info:error
+        })
+    }
+}
+
+exports.findById = async (req,res)=>{
+    const ciudadService = new CiudadService();
+    try {
+        const {id} = req.params;
+        const ciudad = await ciudadService.getOne(id);
+        res.status(200).json({
+            ok:true,
+            ciudad
         })
     } catch (error) {
         console.log(error);
@@ -19,13 +38,13 @@ exports.getAll = async(req,res)=>{
 }
 
 exports.create = async (req,res)=>{
-    const datoTecnicoService = new DatoTecnicoService();
+    const ciudadService = new CiudadService();
     try {
         const {body} = req;
-        const createDatoTecnico = await datoTecnicoService.create(body);
+        const createCiudad = await ciudadService.create(body);
         res.status(200).json({
             ok:true,
-            info:createDatoTecnico
+            info:createCiudad
         })
     } catch (error) {
         console.log(error);
@@ -38,13 +57,13 @@ exports.create = async (req,res)=>{
 }
 
 exports.update = async (req,res)=>{
-    const datoTecnicoService = new DatoTecnicoService();
+    const ciudadService = new CiudadService();
     try {
-        const {body} = req;
-        const updateBarrio = await datoTecnicoService.update(body);
+        const {body,params:{id}} = req;
+        const updateCiudad = await ciudadService.update(body,id);
         res.status(200).json({
             ok:true,
-            info:updateBarrio
+            info:updateCiudad
         })
     } catch (error) {
         console.log(error);
@@ -57,13 +76,13 @@ exports.update = async (req,res)=>{
 }
 
 exports.delete = async (req,res)=>{
-    const datoTecnicoService = new DatoTecnicoService();
+    const ciudadService = new CiudadService();
     try {
         const {params:{id}} = req;
-        const deleteBarrio = await datoTecnicoService.delete(id);
+        const deleteCiudad = await ciudadService.delete(id);
         res.status(200).json({
             ok:true,
-            info:deleteBarrio
+            info:deleteCiudad
         })
     } catch (error) {
         console.log(error);

@@ -9,7 +9,7 @@ router.get("/",categoriasController.getAll);
 
 router.get("/:id",verifyToken,verifyAdminUser,categoriasController.findById);
 
-router.get("/buscar_categoria_nombre/:categoria",categoriasController.findByNombre);
+router.get("/search",categoriasController.findByNombre);
 
 router.post("/",[
   check('categoria','La categoria es obligatoria').isString()

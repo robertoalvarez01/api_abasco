@@ -16,6 +16,17 @@ class ContactoService{
         });
     }
 
+    create(data){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const response = await this.contactoModel.create(data);
+                resolve(response);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
     update(data,id){
         return new Promise(async(resolve, reject) => {
             try {

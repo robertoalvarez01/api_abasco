@@ -4,10 +4,10 @@ const ImagenesService = require('../services/ImagenesService');
 exports.agregar = async (req,res)=>{
     const cs = new CloudStorage();
     const imagenesService = new ImagenesService();
-    const { idCasa } = req.body;
+    const { idInmueble } = req.body;
     try {
         const link = await cs.upload(req.file);
-        const imagenSubida = await imagenesService.agregarImagen(idCasa,link,true);
+        const imagenSubida = await imagenesService.agregarImagen(idInmueble,link,1);
         res.status(200).send({
             ok:true,
             msg:'Imagen subida',
@@ -28,12 +28,12 @@ exports.agregar = async (req,res)=>{
 exports.agregarVarias = async (req,res)=>{
     const cs = new CloudStorage();
     const imagenesService = new ImagenesService();
-    const { idCasa } = req.body;
+    const { idInmueble } = req.body;
     const {files} = req;
     try {
         for (let index = 0; index < files.length; index++) {
             const link = await cs.upload(files[index]);
-            const subida = await imagenesService.agregarImagen(idCasa,link,false);
+            const subida = await imagenesService.agregarImagen(idInmueble,link,0);
             console.log('subido');   
         }
         res.status(200).json({

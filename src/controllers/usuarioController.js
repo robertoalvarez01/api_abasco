@@ -150,20 +150,20 @@ exports.update = async(req,res)=>{
     }
 }
 
-exports.delete = async(req,res)=>{
-    const usuarioService = new UsuarioService();
-    try {
-        const {id} = req.params;
-        const eliminar = await usuarioService.delete(id);
-        res.status(200).json({
-            ok:true,
-            info:eliminar
-        })
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok:false,
-            msg:'Ha ocurrido un error'
-        }) 
-    }
-}
+// exports.delete = async(req,res)=>{
+//     const usuarioService = new UsuarioService();
+//     try {
+//         const {id} = req.params;
+//         const eliminar = await usuarioService.delete(id);
+//         res.status(200).json({
+//             ok:true,
+//             info:eliminar
+//         })
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({
+//             ok:false,
+//             msg:'Ha ocurrido un error'
+//         }) 
+//     }
+// }

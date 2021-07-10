@@ -27,10 +27,10 @@ class DatoTecnicoService{
         });
     }
 
-    create(body){
+    create(body,idInmueble){
         return new Promise(async(resolve, reject) => {
             try {
-                const newDato = await this.model.create(body);
+                const newDato = await this.model.create(body,idInmueble);
                 resolve(newDato);
             } catch (error) {
                 reject(error);
@@ -38,10 +38,10 @@ class DatoTecnicoService{
         });
     };
 
-    update(body){
+    update(body,idInmueble){
         return new Promise(async(resolve, reject) => {
             try {
-                const updateDate = await this.model.update(body);
+                const updateDate = await this.model.update(body,idInmueble);
                 resolve(updateDate);
             } catch (error) {
                 reject(error);

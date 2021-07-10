@@ -12,27 +12,25 @@ class ServicioModel{
 
     findById(id){
         return new Promise((resolve,reject)=>{
-            db.query("SELECT * FROM servicios WHERE id = ?",[id],(err,res,fields)=>{
+            db.query("SELECT * FROM servicios WHERE idServicio = ?",[id],(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
         })
     }
     
-    create(body){
+    create(body,idInmueble){
         return new Promise((resolve,reject)=>{
-            db.query("INSERT INTO servicios(idCasa, luz, agua, calefaccion, telefono, gas, internet) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [body.idCasa, body.luz, body.agua, body.calefaccion, body.telefono, body.gas, body.internet],(err,res,fields)=>{
+            db.query("CALL SP_SERVICIOS_INS_UPD(0,?, ?, ?, ?, ?, ?, ?)",[idInmueble,body.luz, body.internet, body.gas, body.agua, body.calefaccion, body.telefono],(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
         })
     }
 
-    update(body){
+    update(body,idInmueble){
         return new Promise((resolve,reject)=>{
-            db.query("UPDATE servicios SET  luz =?, agua =?, calefaccion =?, telefono=?, gas=?, internet=? WHERE idCasa = ?",
-            [body.luz, body.agua, body.calefaccion, body.telefono, body.gas, body.internet, body.idCasa],(err,res,fields)=>{
+            db.query("CALL SP_SERVICIOS_INS_UPD(null,?, ?, ?, ?, ?, ?, ?)",[idInmueble,body.luz, body.internet, body.gas, body.agua, body.calefaccion, body.telefono],(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -41,7 +39,7 @@ class ServicioModel{
 
     delete(id){
         return new Promise((resolve,reject)=>{
-            db.query("DELETE FROM servicios WHERE id=?", [id],(err,res,fields)=>{
+            db.query("CALL SP_SERVICIOS_DEL(?)", [id],(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })

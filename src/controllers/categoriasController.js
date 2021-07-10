@@ -40,7 +40,7 @@ exports.findById = async (req,res)=>{
 exports.findByNombre = async (req,res)=>{
     const categoriaService = new CategoriaService();
     try {
-        const {categoria} = req.params
+        const {categoria} = req.query
         const cat = await categoriaService.search(categoria);
         res.status(200).json({
             ok:true,

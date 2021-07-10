@@ -1,9 +1,13 @@
+const { config } = require('../../config');
 const db = require('../database/database');
 
 class UsuarioModel{
+    constructor(){
+        this.view = `${config.dbName}.rs_usuarios`;
+    }
     getAll(desde,limite){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT idUsuario,email,nombre,foto,admin FROM usuarios LIMIT ${desde},${limite}`,(err,res,fields)=>{
+            db.query(`SELECT * FROM ${this.view} LIMIT ${desde},${limite}`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -12,7 +16,7 @@ class UsuarioModel{
 
     findById(id){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT * FROM usuarios WHERE idUsuario = '${id}'`,(err,res,fields)=>{
+            db.query(`SELECT * FROM ${this.view} WHERE ID_USUARIO = '${id}'`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -21,7 +25,7 @@ class UsuarioModel{
 
     findByEmail(email){
         return new Promise((resolve,reject)=>{
-            db.query(`SELECT * FROM usuarios WHERE email = "${email}"`,(err,res,fields)=>{
+            db.query(`SELECT * FROM ${this.view} WHERE EMAIL = "${email}"`,(err,res,fields)=>{
                 if(err) {
                     reject(err);
                 };
@@ -32,16 +36,7 @@ class UsuarioModel{
 
     create(body){
         return new Promise((resolve,reject)=>{
-            db.query(`INSERT INTO usuarios (email,pw,nombre,foto,admin) VALUES ('${body.email}','${body.pw}','${body.nombre}','${body.foto}',0)`,(err,res,fields)=>{
-                if(err) reject(err);
-                resolve(res);
-            })
-        })
-    }
-
-    createAdmin(body){
-        return new Promise((resolve,reject)=>{
-            db.query(`INSERT INTO usuarios (email,pw,nombre,foto,admin) VALUES ('${body.email}','${body.pw}','${body.nombre}','${body.foto}',${body.admin})`,(err,res,fields)=>{
+            db.query(`CALL SP_USUARIO_INS_UPD(0,'${body.email}','${body.pw}','${body.nombre}','${body.apellido}','${body.foto}',0)`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
@@ -50,20 +45,11 @@ class UsuarioModel{
 
     update(body,id){
         return new Promise((resolve,reject)=>{
-            db.query(`UPDATE usuarios SET email = '${body.email}', pw = '${body.pw}', nombre = '${body.nombre}', foto = '${body.foto}' WHERE idUsuario = ${id}`,(err,res,fields)=>{
+            db.query(`CALL SP_USUARIO_INS_UPD(${id},null,null,'${body.nombre}','${body.apellido}','${body.foto}',0)`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })
         })
-    }
-
-    delete(id){
-        return new Promise((resolve,reject)=>{
-            db.query(`DELETE FROM usuarios WHERE idUsuario = ${id}`,(err,res,fields)=>{
-                if(err) reject(err);
-                resolve(res);
-            })
-        }) 
     }
 
 }

@@ -1,15 +1,15 @@
-const LocalidadModel = require('../models/Localidad');
+const CiudadModel = require('../models/Ciudad');
 
 class LocalidadService{
     constructor() {
-        this.model = new LocalidadModel();
+        this.model = new CiudadModel();
     }
 
     getAll(){
         return new Promise(async(resolve, reject) => {
             try {
-                const localidades = await this.model.getAll();
-                resolve(localidades);
+                const ciudades = await this.model.getAll();
+                resolve(ciudades);
             } catch (error) {
                 reject(error);
             }
@@ -19,8 +19,8 @@ class LocalidadService{
     getOne(id){
         return new Promise(async(resolve, reject) => {
             try {
-                const localidad = await this.model.findById(id);
-                resolve(localidad);
+                const ciudad = await this.model.findById(id);
+                resolve(ciudad);
             } catch (error) {
                 reject(error);
             }
@@ -30,8 +30,8 @@ class LocalidadService{
     create(body){
         return new Promise(async(resolve, reject) => {
             try {
-                const newLocalidad = await this.model.create(body);
-                resolve(newLocalidad);
+                const newCiudad = await this.model.create(body);
+                resolve(newCiudad);
             } catch (error) {
                 reject(error);
             }
@@ -41,8 +41,8 @@ class LocalidadService{
     update(body,id){
         return new Promise(async(resolve, reject) => {
             try {
-                const updateLocalidad = await this.model.update(body,id);
-                resolve(updateLocalidad); 
+                const updateCiudad = await this.model.update(body,id);
+                resolve(updateCiudad); 
             } catch (error) {
                 reject(error);
             }
@@ -52,8 +52,8 @@ class LocalidadService{
     delete(id){
         return new Promise(async(resolve, reject) => {
             try {
-                const delLocalidad  = await this.model.delete(id);
-                resolve(delLocalidad);
+                const delCiudad  = await this.model.delete(id);
+                resolve(delCiudad);
             } catch (error) {
                 reject(error);
             }

@@ -56,6 +56,25 @@ exports.sendEmail = async (req,res)=>{
     }
 }
 
+exports.create = async (req,res)=>{
+    const contactoService = new ContactoService();
+    try {
+        const {body} = req;
+        const newContacto = await contactoService.create(body);
+        res.status(200).json({
+            ok:true,
+            info:newContacto
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg:error.message,
+            info:error
+        })
+    }
+}
+
 exports.update = async (req,res)=>{
     const contactoService = new ContactoService();
     try {

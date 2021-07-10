@@ -27,10 +27,10 @@ class BarriosService{
         })
     }
 
-    getByLocalidad(idLocalidad){
+    getByCiudad(idCiudad){
         return new Promise(async(resolve, reject) => {
             try {
-                const barrios = await this.model.findByLocalidad(idLocalidad);
+                const barrios = await this.model.findByCiudad(idCiudad);
                 resolve(barrios);
             } catch (error) {
                 reject(error);

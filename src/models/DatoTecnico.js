@@ -12,7 +12,7 @@ class DatoTecnicoModel{
 
     findById(id){
         return new Promise((resolve,reject)=>{
-            db.query("SELECT * FROM datos_tecnicos WHERE idCasa = ? ",
+            db.query("SELECT * FROM datos_tecnicos WHERE idInmueble = ? ",
             [id],(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
@@ -20,8 +20,9 @@ class DatoTecnicoModel{
         })
     }
 
-    create(body){
+    create(body,idInmueble){
         return new Promise((resolve,reject)=>{
+<<<<<<< HEAD
             db.query("INSERT INTO datos_tecnicos(idCasa, dormitorios, s_terreno, s_cubierta, s_semicubierta, s_total, cochera, pileta, u_medida,baños) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)",
             [
               body.idCasa,
@@ -35,15 +36,22 @@ class DatoTecnicoModel{
               body.u_medida,
               body.baños
             ],(err,res,fields)=>{
+=======
+            db.query(`CALL SP_DT_INS_UPD(0,${idInmueble},${body.dormitorios},${body.cochera},${body.pileta},'${body.s_total}','${body.s_cubierta}','${body.u_medida}')`,(err,res,fields)=>{
+>>>>>>> 998633b29cd60cf3a38348bc1f5fd5460ed0f499
                 if(err) reject(err);
                 resolve(res);
             })
         })
     }
 
-    update(body){
+    update(body,idInmueble){
         return new Promise((resolve,reject)=>{
+<<<<<<< HEAD
             db.query("UPDATE datos_tecnicos SET  dormitorios =?, s_terreno =?, s_cubierta =?, s_semicubierta =?, s_total=?, cochera =?, pileta =?, u_medida = ?, baños = ? WHERE idCasa = ?",[body.dormitorios,body.s_terreno,body.s_cubierta,body.s_semicubierta,body.s_total,body.cochera,body.pileta,body.u_medida,body.baños,body.idCasa],(err,res,fields)=>{
+=======
+            db.query(`CALL SP_DT_INS_UPD(${idInmueble},${idInmueble},${body.dormitorios},${body.cochera},${body.pileta},'${body.s_total}','${body.s_cubierta}','${body.u_medida}')`,(err,res,fields)=>{
+>>>>>>> 998633b29cd60cf3a38348bc1f5fd5460ed0f499
                 if(err) reject(err);
                 resolve(res);
             })
@@ -52,8 +60,7 @@ class DatoTecnicoModel{
 
     delete(id){
         return new Promise((resolve,reject)=>{
-            db.query("DELETE FROM datos_tecnicos WHERE id=?",
-            [id],(err,res,fields)=>{
+            db.query(`CALL SP_DT_DEL(${id})`,(err,res,fields)=>{
                 if(err) reject(err);
                 resolve(res);
             })

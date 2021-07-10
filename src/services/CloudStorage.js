@@ -14,7 +14,7 @@ class CloudStorage{
 
     upload(file){
         return new Promise((resolve,reject)=>{
-            const blob = bucket.file(file.originalname);
+            const blob = bucket.file(`rossetto/${file.originalname}`);
             const blobStream = blob.createWriteStream();
             blobStream.on('error', (err) => {
                 console.log(err);
